@@ -22,6 +22,8 @@ Route::get('suporte/{id}', [SuporteController::class, 'show'])->name('suporte.sh
 
 Route::get('/teste', [SiteController::class, 'teste']);
 
+
+
 Route::get('/suporte/{id}/edit', [SuporteController::class, 'edit'])->name('suporte.edit');
 
 

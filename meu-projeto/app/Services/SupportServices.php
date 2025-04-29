@@ -4,21 +4,36 @@
 
 namespace App\Services;
 
+use App\DTO\CreateSuporteDTO;
+use App\DTO\UpdateSuporteDTO;
+use App\Repositories\SuporteRepositoryInterface;
+use App\Repository\SuporteRepositoryInterface as RepositorySuporteRepositoryInterface;
 use stdClass;
 
 class SupportServices
 {
-    protected $repository;
+ 
+    public function __construct(
+        protected RepositorySuporteRepositoryInterface $repository
+    ){}
 
-    public function __construct()
+    public function getAll(?string $filter = null): array
     {
 
-    }
-
-    public function getAll(string $filter = null): array
-    {
         return $this->repository->getAll($filter);
+    }
+    public function paginate(
+        ?string $filter = null,
+        int $page = 1, 
+        int $totalPage = 15,
+    )
+    {
 
+        return $this->repository->paginate(
+            page:$page,
+            totalPage:$totalPage,
+            filter: $filter
+        );
     }
 
 
@@ -28,41 +43,24 @@ class SupportServices
     }
 
 
-    public function new(
-        string $subject,
-        string $status,
-        string $body,
-    ): stdClass
+    public function new(CreateSuporteDTO $dto): stdClass
     {
-        return $this->repository->new(
-            $subject,
-            $status,
-            $body,
-        );
+        return $this->repository->new($dto);
     }
 
 
 
-    public function update(
-        string $id,
-        string $subject,
-        string $status,
-        string $body,
-    ): stdClass|null
+    public function update(UpdateSuporteDTO  $dto): stdClass|null
     {
-        return $this->repository->update(
-            $id,
-            $subject,
-            $status,
-            $body,
-        );
+        return $this->repository->update($dto);
     }
 
 
 
-    public function delete(string $id): void
+    public function delete(string $id): bool
     {
-        $this->repository->delete($id);
+       return  $this->repository->delete($id);
+
 
     }
 

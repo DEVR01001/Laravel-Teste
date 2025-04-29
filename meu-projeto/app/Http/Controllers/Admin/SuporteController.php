@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\CreateSuporteDTO;
+use App\DTO\UpdateSuporteDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateSupportRequest;
 use App\Models\Suporte;
@@ -17,13 +19,16 @@ class SuporteController extends Controller
 
    public function index(Request $request)
    {
-      $suportes = $this->service->getAll($request->filter);
+      $suportes = $this->service->paginate(
+         page: $request->get('page', 1),
+         totalPage: $request->get('per_page', 15),
+         filter: $request->filter,
+      );
 
+      $filters = ['filter' => $request->get('filter', '')];
 
-        return view('admin/suporte/index', compact('suportes'));
+      return view('admin/suporte/index', compact('suportes', 'filters'));
    }
-
-
 
 
    public function create()
@@ -35,9 +40,9 @@ class SuporteController extends Controller
    public function store( StoreUpdateSupportRequest $request, Suporte $suporte)
    {
       
-      $data = $request->validated();
-      $data['status'] = 'a';
-      $suporte->create($data);
+      $this->service->new(
+         CreateSuporteDTO::makeFromRequest($request)
+      );
 
 
       return redirect()->route('suporte.index');
@@ -79,17 +84,19 @@ class SuporteController extends Controller
 
 
 
-   public function update(Suporte $suporte, StoreUpdateSupportRequest $request, string $id)
+   public function update( StoreUpdateSupportRequest $request, string $id)
    {
-     if(!$suporte = $suporte->find($id)){
+
+
+     $suporte = $this->service->update(
+
+      UpdateSuporteDTO::makeFromRequest($request)
+      
+   );
+
+   if(!$suporte){
       return back();
      }
-
-
-     $suporte->update($request->only([
-      'subject', 'body'
-     ]));
-
 
      return redirect()->route('suporte.index');
    
@@ -103,7 +110,7 @@ class SuporteController extends Controller
       if(!$suporte = $this->service->delete($id)){
          return back();
         }
-        
+
       return redirect()->route('suporte.index');
    }
 
