@@ -17,6 +17,8 @@ class SuporteController extends Controller
       protected SupportServices $service
    ){}
 
+
+
    public function index(Request $request)
    {
       $suportes = $this->service->paginate(

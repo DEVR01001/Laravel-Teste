@@ -12,8 +12,8 @@
     <tbody>
         @foreach ($suportes->items() as $item) 
             <tr>
-                <td>{{$item->subjet}}</td>
-                <td>{{$item->status}}</td>
+                <td>{{$item->subject}}</td>
+                <td>{{ getStatusSuporte( $item->status)}}</td>
                 <td>{{$item->body}}</td>
                 <td>
                     <a href="{{route('suporte.show', $item->id)}}">ir</a>
@@ -30,4 +30,8 @@
 </table>
 
 
-<x-pagination :paginator = '$suportes' :appends='$filters' />
+<x-pagination 
+    :paginator="$suportes" 
+    :appends="$filters" />
+
+{{-- <x-pagination :paginator = "$suportes" :appends='$filters' /> --}}

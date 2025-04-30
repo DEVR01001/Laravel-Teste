@@ -17,21 +17,18 @@ class  PaginationPresenter implements PaginationInterface{
         protected LengthAwarePaginator $paginator,
     )
     {
-
-
         $this->items = $this->resolveItems($this->paginator->items());
 
-    
     }
 
 
 
     public function items(): array{
 
-
-        return $this->items();
+        return $this->items;
 
     }
+
     public function total(): int{
 
         return $this->paginator->total( ) ?? 0;
@@ -65,7 +62,7 @@ class  PaginationPresenter implements PaginationInterface{
 
     private function resolveItems(array $items): array{
 
-        $respose = [];
+        $response = [];
 
         foreach ($items as $item) {
 
@@ -78,12 +75,12 @@ class  PaginationPresenter implements PaginationInterface{
             }
 
 
-            array_push($respose, $stdClassObject);
+            array_push($response, $stdClassObject);
     
         }
 
 
-        return $respose;
+        return $response;
 
     }
 

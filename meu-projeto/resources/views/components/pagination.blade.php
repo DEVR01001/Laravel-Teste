@@ -1,5 +1,6 @@
 @if (isset($paginator))
 
+
 @php
 
     $queryParams = (isset($appends) && gettype($appends) === 'array') ? '&' . http_build_query($appends) : ''

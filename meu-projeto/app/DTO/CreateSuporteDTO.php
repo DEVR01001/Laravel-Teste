@@ -3,13 +3,14 @@
 
 namespace App\DTO;
 
+use App\ENUMS\SuporteStatus;
 use App\Http\Requests\StoreUpdateSupportRequest;
 
 class CreateSuporteDTO
 {
     public function __construct(
         public string $subject,
-        public string $status,
+        public SuporteStatus $status,
         public string $body,
     ){ }
 
@@ -18,7 +19,7 @@ class CreateSuporteDTO
     {
         return new self(
             $request->subject,
-            'a',
+            SuporteStatus::A,
             $request->body,
 
         );

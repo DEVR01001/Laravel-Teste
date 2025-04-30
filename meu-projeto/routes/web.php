@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{SuporteController};
 
 
+
+
 Route::delete('suporte/{id}', [SuporteController::class, 'destroy'])->name('suporte.destroy');
 
 
