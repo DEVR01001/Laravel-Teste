@@ -1,5 +1,16 @@
-<h1>Listagem dos suportes</h1>
 
+@extends('admin.layouts.app')
+
+
+@section('title', 'Suportes')
+    
+
+@section('header')
+    <h1>Listagem dos suportes</h1>
+@endsection
+
+@section('content')
+    
 <a href="{{route('suporte.create')}}">criar dúvida</a>
 <table>
     <thead>
@@ -34,4 +45,10 @@
     :paginator="$suportes" 
     :appends="$filters" />
 
-{{-- <x-pagination :paginator = "$suportes" :appends='$filters' /> --}}
+
+
+@endsection
+
+
+@section('footer')
+    
