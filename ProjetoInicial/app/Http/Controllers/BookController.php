@@ -15,14 +15,13 @@ class BookController extends Controller
 
         $books = Book::with(['author', 'category'])->paginate(10);
 
-        
         return view('list-books', compact('books'));
-
         
+
     }
 
 
- 
+
     /**
      * Show the form for creating a new resource.
      */

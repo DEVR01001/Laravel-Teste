@@ -1,0 +1,40 @@
+.editar{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100vw;
+    height: 90vh;
+}
+
+.conatiner_text{
+    display: flex;
+}
+
+.conatiner_btn{
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    gap: 2rem;
+}
+
+.conatiner_btn button{
+    display: flex;
+    width: 15%;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    font-weight: 500;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+
+}
+
+.conatiner_btn button:nth-child(2){
+    background-color: rgb(22, 148, 22);
+}
