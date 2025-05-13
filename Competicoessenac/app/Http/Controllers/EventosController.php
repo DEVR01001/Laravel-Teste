@@ -2,40 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Perfil;
-use App\Models\Usuarios;
+use App\Models\Eventos;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
-class PerfilsController extends Controller
+class EventosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $eventos = Eventos::with(['setor'])->paginate(10);
+
+        return view('eventos-listar', compact('eventos'));
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        
-        $data = Session::get('data');
 
+        // dd($request,   $request->name);
 
-        $user = Usuarios::find($data[1]);
-        
-        $perfil = $user->perfil()->create([
-            'type' => $data[0],
-            'usuarios_id' => $data[1]
+    
+
+        $validada = $request->validate([
+            'name' => 'required',
+            'capacidade_pessoas' => 'required',
+            'cep' => 'required',
+            'bairro' => 'required',
+            'rua' => 'required',
+            'cep' => 'required',
+            'numero' => 'required',
+            'logo' => 'required',
         ]);
 
+    
 
-        return redirect()->route('usuarios.index');
 
+        $result = Eventos::create($validada);
+        
+
+        return redirect()->route('eventos.index');
 
     }
 
@@ -66,11 +76,9 @@ class PerfilsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
-        
-
-
+        //
     }
 
     /**

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Perfil;
-use App\Models\Usuarios;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
-class PerfilsController extends Controller
+class CadeirasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,21 +19,7 @@ class PerfilsController extends Controller
      */
     public function create()
     {
-        
-        $data = Session::get('data');
-
-
-        $user = Usuarios::find($data[1]);
-        
-        $perfil = $user->perfil()->create([
-            'type' => $data[0],
-            'usuarios_id' => $data[1]
-        ]);
-
-
-        return redirect()->route('usuarios.index');
-
-
+        //
     }
 
     /**
@@ -66,11 +49,9 @@ class PerfilsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
-        
-
-
+        //
     }
 
     /**

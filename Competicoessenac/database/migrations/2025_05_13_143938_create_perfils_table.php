@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->integer('id')->primary()->autoIncrement();
-            $table->string('name', 80);
-            $table->string('lastname', 80);
-            $table->string('email', 100);
-            $table->string('senha', 100);
-            $table->char('CPF', 11);
+        Schema::create('perfils', function (Blueprint $table) {
+            $table->integer('id', true)->primary(true)->autoIncrement();
+            $table->enum('type', ['adm', 'cliente', 'vendedor', 'toten'])->nullable();
+            $table->integer('usuarios_id')->index('usuarios_id');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('perfils');
     }
 };

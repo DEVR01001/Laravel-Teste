@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Perfil;
+use App\Models\Perfils;
 use App\Models\Usuarios;
 use Faker\Provider\ar_EG\Person;
 use Illuminate\Http\Request;
@@ -17,8 +18,6 @@ class UsuariosController extends Controller
     {
 
         $usuarios = Usuarios::with(['perfil'])->paginate(10);
-
-    
 
         return view('usuarios_listar', compact('usuarios'));
         
@@ -45,16 +44,14 @@ class UsuariosController extends Controller
 
     
         $usuario = Usuarios::create($validada);
+        $id = $usuario->id;
 
-        Perfil::create([
-            'type' => $validada['type'],
-            'usuarios_id' => $usuario->id,
-        ]);
-
-        
    
-        return redirect()->route('usuarios.index');
-
+        return redirect()->route('perfils.create')->with('data', [
+            $validada['type'],
+            $id
+        ]);
+        
     
     }
 
@@ -86,7 +83,7 @@ class UsuariosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Usuarios $usuario, Perfil $perfil)
+    public function update(Request $request, Usuarios $usuario, Perfils $perfil)
     {
 
 
@@ -101,17 +98,30 @@ class UsuariosController extends Controller
 
         $usuario->update($validada);
 
-        
-        return redirect()->route('usuarios.index');
 
+        $teste = Usuarios::find($usuario->id);
+        $perfil = Perfils::find($usuario->id);
+
+
+
+        $perfil->update([
+            'type' => $validada['type']
+        ]);
+
+
+        return redirect()->route('usuarios.index');
+        
         
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(Usuarios $usuario)
+    {   
+        $usuario->delete();
+
+        return redirect()->route('usuarios.index');
+        
     }
 }

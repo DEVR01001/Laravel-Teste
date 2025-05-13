@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="{{ URL::asset('css/style.css');}}">
-
-    <title>{{config('app.name')}}</title>
-</head>
-<body class="editar">
+@extends('layouts.app')
 
 
-    <main class="container ">
+
+@section('container')
+    
 
         <div class="conatiner_text">
             <h3 class="my-5">Editar Usuario</h3>
@@ -44,7 +33,7 @@
         </div>
         <div class="col-md-6">
             <label class="form-label fs-5" for="">Tipo</label>
-            <select class="form-control" name="type" id="">
+            <select class="form-control" name="type" id="" value='{{old('type', $usuario->type)}}'>
                 <option value="cliente">Cliente</option>
                 <option value="adm">ADM</option>
                 <option value="toten">Toten</option>
@@ -64,14 +53,5 @@
       </form>
        
 
-    </main>
 
-
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-</body>
-</html>
+@endsection

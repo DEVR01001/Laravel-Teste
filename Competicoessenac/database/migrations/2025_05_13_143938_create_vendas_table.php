@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('eventos', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->string('name', 100);
-            $table->integer('capacidade_pessoas');
+        Schema::create('vendas', function (Blueprint $table) {
+            $table->integer('id', true)->primary(true)->autoIncrement();
+            $table->integer('usuario_id');
+            $table->timestamp('data_hora')->useCurrent();
+            $table->enum('status_venda', ['AP', 'CL'])->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('eventos');
+        Schema::dropIfExists('vendas');
     }
 };

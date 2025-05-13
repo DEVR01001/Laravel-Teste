@@ -22,7 +22,7 @@ class Usuarios extends Model
     
     public function perfil(): HasOne{
 
-        return $this->hasOne(Perfil::class);
+        return $this->hasOne(Perfils::class);
     }
 
  

@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfils', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->enum('type', ['adm', 'cliente', 'vendedor', 'toten'])->nullable();
-            $table->integer('usuarios_id')->nullable()->index('usuario_id');
-            $table->timestamps();
+        Schema::table('perfils', function (Blueprint $table) {
+            $table->foreign(['usuarios_id'], 'perfils_ibfk_1')->references(['id'])->on('usuarios')->onUpdate('restrict')->onDelete('cascade');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('perfils');
+        Schema::table('perfils', function (Blueprint $table) {
+            $table->dropForeign('perfils_ibfk_1');
+        });
     }
 };

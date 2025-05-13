@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('setores', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->integer('id', true)->primary(true)->autoIncrement();
             $table->string('name', 50);
             $table->integer('quantidade_cadeiras');
             $table->decimal('comprimento')->nullable();
             $table->decimal('largura')->nullable();
-            $table->integer('evento_id')->index('evento_id');
+            $table->integer('eventos_id')->index('eventos_id');
             $table->timestamps();
         });
     }
