@@ -12,7 +12,7 @@
 
         @csrf
         @method('GET')
-
+        <input type="hidden" name="eventos_id" class="form-control" value="{{$id_evento}}">
         <div class="col-md-6">
             <label class="form-label fs-5" for="">Nome do Setor</label>
             <input name="name" type="text" class="form-control">

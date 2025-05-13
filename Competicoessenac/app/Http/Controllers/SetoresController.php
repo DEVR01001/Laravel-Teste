@@ -33,6 +33,7 @@ class SetoresController extends Controller
             'quantidade_cadeiras' => 'required',
             'comprimento' => 'required',
             'largura' => 'required',
+            'eventos_id' => 'required|exists:eventos,id',
         ]);
 
 
@@ -42,6 +43,13 @@ class SetoresController extends Controller
         return redirect()->route('setores.index');
 
 
+    }
+
+
+    public function createReturn($id_evento)
+    {
+
+        return view('setores-cadastrar', compact('id_evento'));
     }
     
 

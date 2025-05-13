@@ -8,7 +8,7 @@
 
     <div class="conatiner_text">
         <h3 class="my-5">Listar Setores</h3>
-        <a href="{{}}" >Cadastrar Setores</a>
+        <a href="{{route('setores.createReturn', ['id_evento' => $id_evento])}}" >Cadastrar Setores</a>
 
 
     </div>
