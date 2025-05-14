@@ -6,8 +6,11 @@ use App\Models\Perfil;
 use App\Models\Perfils;
 use App\Models\Usuarios;
 use Faker\Provider\ar_EG\Person;
+
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class UsuariosController extends Controller
 {
@@ -18,6 +21,8 @@ class UsuariosController extends Controller
     {
 
         $usuarios = Usuarios::with(['perfil'])->paginate(10);
+
+        
 
         return view('usuarios_listar', compact('usuarios'));
         
@@ -31,10 +36,10 @@ class UsuariosController extends Controller
     public function create(Request $request)
     {
 
-        $validada = $request->validate([
+        $validada = $request->validateWithBag('post', [
             'name' =>'required',
             'lastname' => 'required',
-            'email' =>'required',
+            'email' =>'required|email',
             'senha' => 'required',
             'CPF' => 'required',
             'type' => 'required',
@@ -42,7 +47,6 @@ class UsuariosController extends Controller
         ]);
 
 
-    
         $usuario = Usuarios::create($validada);
         $id = $usuario->id;
 
@@ -119,9 +123,10 @@ class UsuariosController extends Controller
      */
     public function destroy(Usuarios $usuario)
     {   
+        
         $usuario->delete();
-
         return redirect()->route('usuarios.index');
+
         
     }
 }

@@ -15,23 +15,23 @@
 
         <div class="col-md-6">
             <label class="form-label fs-5" for="">Nome</label>
-            <input name="name" type="text" class="form-control">
+            <input name="name" type="text" class="form-control" value='{{old('name')}}'>
         </div>
         <div class="col-md-6">
             <label class="form-label fs-5" for="">Sobrenome</label>
-            <input name="lastname" type="text" class="form-control" >
+            <input name="lastname" type="text" class="form-control" value='{{old('lastname')}}'>
         </div>
         <div class="col-md-12">
             <label class="form-label fs-5" for="">Email</label>
-            <input name="email" type="email" class="form-control" >
+            <input name="email" type="text" class="form-control" value='{{old('email')}}'>
         </div>
         <div class="col-md-6">
             <label class="form-label fs-5" for="">CPF</label>
-            <input name="CPF" type="text" class="form-control" >
+            <input name="CPF" type="text" class="form-control" value='{{old('CPF')}}'>
         </div>
         <div class="col-md-6">
             <label class="form-label fs-5" for="">Tipo</label>
-            <select class="form-control" name="type" id="">
+            <select class="form-control" name="type" id="" value='{{old('type')}}'>
                 <option value="cliente">Cliente</option>
                 <option value="adm">ADM</option>
                 <option value="toten">Toten</option>
@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-12">
             <label class="form-label fs-5" for="">Senha</label>
-            <input name="senha" type="password" class="form-control">
+            <input name="senha" type="password" class="form-control" value='{{old('senha')}}'>
         </div>
 
         <div class="conatiner_btn">

@@ -39,10 +39,9 @@
                     <div class="conatiner_flex">
                         <a href="{{route('eventos.edit', [$evento->id])}}">Editar</a>
 
-                        <form method='post' action="{{route('eventos.destroy', ['evento' => $evento->id])}}">
+                        <form method='post' action="{{route('eventos.destroy', [$evento->id])}}">
                             @method('DELETE')
                             @csrf
-
                                 <button type="submit" >Excluir</button>
                         </form>
                     </div>

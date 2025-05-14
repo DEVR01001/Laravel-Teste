@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Eventos;
 use App\Models\Setores;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Integer;
 
 class SetoresController extends Controller
 {
@@ -18,7 +19,9 @@ class SetoresController extends Controller
 
         $setores = Setores::where('eventos_id', $id_evento)->paginate(10);
 
-        return view('setores-listar', compact('setores', 'id_evento'));
+        $name_evento = $request->name;
+        
+        return view('setores-listar', compact('setores', 'id_evento', 'name_evento'));
         
     }
 
@@ -31,34 +34,32 @@ class SetoresController extends Controller
         $validada = $request->validate([
             'name' => 'required',
             'quantidade_cadeiras' => 'required',
-            'comprimento' => 'required',
-            'largura' => 'required',
-            'eventos_id' => 'required|exists:eventos,id',
+            'quantidade_fileras' => 'required',
+            'nivel_setor' => 'required',
+            'status_setor' => 'required',
+            'eventos_id' => 'required',
         ]);
 
 
 
         $result = Setores::create($validada);
 
-        return redirect()->route('setores.index');
+        $id_setor = $result->id;
+
+        return redirect()->route('cadeiras.create', compact('id_setor', 'validada') );
+
+        // return redirect()->route('setores.index', ['id_evento' => $validada['eventos_id']]);
 
 
     }
 
-
-    public function createReturn($id_evento)
-    {
-
-        return view('setores-cadastrar', compact('id_evento'));
-    }
-    
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store()
+    public function store(Request $request)
     {
-    
+
     }
 
     /**
@@ -66,31 +67,68 @@ class SetoresController extends Controller
      */
     public function show(string $id)
     {
+        $id_evento = $id;
+        return view('setores-cadastrar', compact('id_evento'));
         
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit($setor)
     {
-        
+        $setor = Setores::find($setor);
+
+
+  
+        return view('setores-edit', compact('setor'));
+
       
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+
+    public function update(Request $request, $setor)
     {
-        //
+        $setor = Setores::find($setor);
+      
+        $validada = $request->validate([
+            'name' => 'required',
+            'quantidade_cadeiras' => 'required',
+            'quantidade_fileras' => 'required',
+            'nivel_setor' => 'required',
+            'status_setor' => 'required',
+        ]);
+
+
+        $setor->update($validada);
+        $id_evento = $setor->eventos_id;
+
+        return redirect()->route('setores.index', compact('id_evento'));
+
+
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $setor)
     {
-        //
+        $setor = Setores::find($setor);
+        
+        $setor->delete();
+
+        $id_evento = $setor->eventos_id;
+        
+        return redirect()->route('setores.index', compact('id_evento'));
+
+        
+
+
     }
 }

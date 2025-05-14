@@ -9,6 +9,13 @@ class Cadeiras extends Model
 {
     
 
+    protected $fillable =[
+        'number_cadeira',
+        'status',
+        'nivel_cadeira',
+        'setor_id'
+    ];
+
 
   
 }

@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\CadeirasController;
 use App\Http\Controllers\EventosController;
 use App\Http\Controllers\PerfilsController;
 use App\Http\Controllers\SetoresController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\VendasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,7 +36,13 @@ Route::get('/SetoresCadastrar/{id}', function(){
 
 
 
+
 Route::resource('eventos', EventosController::class);
 
 Route::resource('setores', SetoresController::class);
+
+Route::resource('cadeiras', CadeirasController::class);
+
+
+Route::resource('vendas', VendasController::class);
 

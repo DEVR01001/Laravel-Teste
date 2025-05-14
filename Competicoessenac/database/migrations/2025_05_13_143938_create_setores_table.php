@@ -15,9 +15,10 @@ return new class extends Migration
             $table->integer('id', true)->primary(true)->autoIncrement();
             $table->string('name', 50);
             $table->integer('quantidade_cadeiras');
-            $table->decimal('comprimento')->nullable();
-            $table->decimal('largura')->nullable();
+            $table->integer('quantidade_fileras');
             $table->integer('eventos_id')->index('eventos_id');
+            $table->enum('nivel_setor', ['VP', 'CM'])->nullable();
+            $table->enum('status_setor', ['D', 'ND'])->nullable();
             $table->timestamps();
         });
     }

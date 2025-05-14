@@ -12,11 +12,13 @@ class Setores extends Model
     protected $fillable = [
         'name',
         'quantidade_cadeiras',
-        'comprimento',
-        'largura',
+        'quantidade_fileras',
+        'nivel_setor',
+        'status_setor',
         'eventos_id'
     ];
 
+    
 
     public function cadeiras(): HasOne{
 

@@ -68,24 +68,55 @@ class EventosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Eventos $evento)
     {
-        //
+
+        
+        return view('eventos-edit', compact('evento'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Eventos $evento)
     {
-        //
+        
+
+        $validada = $request->validate([
+            'name' => 'required',
+            'capacidade_pessoas' => 'required',
+            'cep' => 'required',
+            'bairro' => 'required',
+            'rua' => 'required',
+            'cep' => 'required',
+            'numero' => 'required',
+            'logo' => 'required',
+        ]);
+
+
+        $evento->update($validada);
+
+
+
+        return redirect()->route('eventos.index');
+
+    
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Eventos $evento)
     {
-        //
+
+        $evento->delete();
+
+        return redirect()->route('eventos.index');
+
     }
+
+
+
 }

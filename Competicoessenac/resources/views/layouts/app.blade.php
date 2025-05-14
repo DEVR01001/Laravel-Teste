@@ -21,6 +21,7 @@
             <a href="/usuarios">Usuarios</a>
             <a href="/eventos">Eventos</a>
             <a href="/usuarios">Toten</a>
+            <a href="/vendas">Venda</a>
         </ul>
       </nav>
         
@@ -32,6 +33,9 @@
         @yield('container')
 
     </main>
+
+
+    
 
     <footer>
         
