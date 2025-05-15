@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{ URL::asset('css/style.css');}}">
+    <link rel="stylesheet" defer href="{{ URL::asset('js/select-user.js');}}">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
 
     <title>{{config('app.name')}}</title>
 </head>
@@ -21,7 +26,7 @@
             <a href="/usuarios">Usuarios</a>
             <a href="/eventos">Eventos</a>
             <a href="/usuarios">Toten</a>
-            <a href="/vendas">Venda</a>
+            <a href="/VendaEventos">Venda</a>
         </ul>
       </nav>
         

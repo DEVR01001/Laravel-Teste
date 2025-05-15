@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Eventos extends Model
@@ -23,10 +24,10 @@ class Eventos extends Model
 
 
 
-    public function setor(): HasOne{
+    public function setores(): HasMany{
 
 
-        return $this->hasOne(Setores::class);
+        return $this->hasMany(Setores::class);
         
     }
 }

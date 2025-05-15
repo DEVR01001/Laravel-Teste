@@ -12,7 +12,7 @@ class EventosController extends Controller
      */
     public function index()
     {
-        $eventos = Eventos::with(['setor'])->paginate(10);
+        $eventos = Eventos::with(['setores'])->paginate(10);
 
         return view('eventos-listar', compact('eventos'));
 

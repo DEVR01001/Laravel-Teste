@@ -14,11 +14,11 @@ class CadeirasController extends Controller
     public function index(Request $request)
     {
         
-        $cadeiras = Cadeiras::where('setor_id', $request->id_setor)->paginate(10);
-        $setor_id = $request->id_setor;
+        $cadeiras = Cadeiras::where('setores_id', $request->id_setor)->paginate(10);
+        $setores_id = $request->id_setores;
 
 
-        return view('cadeiras-listar', compact('cadeiras', 'setor_id'));
+        return view('cadeiras-listar', compact('cadeiras', 'setores_id'));
 
     }
 
@@ -29,6 +29,7 @@ class CadeirasController extends Controller
     {
         
 
+    
         $totalCadeiras = $request->validada['quantidade_cadeiras'] * $request->validada['quantidade_fileras'];
 
         $i=1;
@@ -41,7 +42,7 @@ class CadeirasController extends Controller
                         'number_cadeira' => $i,
                         'status' => 'D',
                         'nivel_cadeira' => 'VP',
-                        'setor_id' => $request->id_setor
+                        'setores_id' => $request->id_setor
                     ]);
         
                     $i+=1;
@@ -55,7 +56,7 @@ class CadeirasController extends Controller
                         'number_cadeira' => $i,
                         'status' => 'D',
                         'nivel_cadeira' => 'CM',
-                        'setor_id' => $request->id_setor
+                        'setores_id' => $request->id_setores
                     ]);
         
                     $i+=1;
@@ -108,21 +109,21 @@ class CadeirasController extends Controller
      */
     public function update(Request $request, Cadeiras $cadeira)
     {
+        // dd($request, $cadeira);
 
-    
+
         $validada = $request->validate([
             'number_cadeira' => 'required',
             'status' => 'required',
             'nivel_cadeira' => 'required',
-            'setor_id' => 'required',
+            'setores_id' => 'required',
         ]);
         
-        // dd($request, $cadeira, $validada);
 
  
         $cadeira->update($validada);
 
-        return redirect()->route('cadeiras.index', ['id_setor' => $validada['setor_id']]);
+        return redirect()->route('cadeiras.index', ['id_setor' => $validada['setores_id']]);
 
 
     }
@@ -135,7 +136,7 @@ class CadeirasController extends Controller
         
         $cadeira->delete();
         
-        return redirect()->route('cadeiras.index', ['id_setor' => $cadeira->setor_id]);
+        return redirect()->route('cadeiras.index', ['id_setor' => $cadeira->setores_id]);
 
         
     }

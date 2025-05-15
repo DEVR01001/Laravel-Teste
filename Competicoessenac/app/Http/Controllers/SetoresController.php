@@ -133,10 +133,6 @@ class SetoresController extends Controller
     }
 
 
-    public function showMapa($eventoId) {
-    $evento = Evento::with('setores.cadeiras')->findOrFail($eventoId);
-
-    return view('evento.mapa', compact('evento'));
-}
+ 
 
 }

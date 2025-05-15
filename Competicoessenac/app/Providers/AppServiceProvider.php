@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Eventos;
+use App\Models\Usuarios;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        
+        $eventosTotal = Eventos::all();
+        view()->share('eventosTotal', $eventosTotal);
+
+
+        $usuariosTotal = Usuarios::all();
+        view()->share('usuariosTotal', $usuariosTotal);
     }
 }

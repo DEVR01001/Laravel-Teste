@@ -14,7 +14,7 @@
 
         @csrf
         @method('PUT')
-        <input name="setor_id" type="hidden" class="form-control" value="{{$cadeira->setor_id}}">
+        <input name="setores_id" type="hidden" class="form-control" value="{{$cadeira->setores_id}}">
 
         <div class="col-md-6">
             <label class="form-label fs-5" for="">N° Cadeira</label>

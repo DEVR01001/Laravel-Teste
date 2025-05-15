@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Cadeiras extends Model
@@ -13,9 +14,19 @@ class Cadeiras extends Model
         'number_cadeira',
         'status',
         'nivel_cadeira',
-        'setor_id'
+        'setores_id'
     ];
 
 
+
+    public function setores(): BelongsToMany
+    {
+        return $this->belongsToMany(Setores::class);
+    }
+    
+
+
+
+    
   
 }

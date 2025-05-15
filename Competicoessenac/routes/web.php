@@ -46,3 +46,12 @@ Route::resource('cadeiras', CadeirasController::class);
 
 Route::resource('vendas', VendasController::class);
 
+Route::get('/VendaEventos', function(){
+    return view('vendas-listar-eventos');
+});
+
+
+
+
+Route::get('/vendasIngresso/{id}', [VendasController::class, 'ingresso'])
+    ->name('vendas.ingresso');

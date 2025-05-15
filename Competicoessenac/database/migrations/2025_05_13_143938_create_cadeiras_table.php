@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('number_cadeira');
             $table->enum('status', ['D','ND', 'M'])->nullable();
             $table->enum('nivel_cadeira', ['VP', 'CM'])->nullable();
-            $table->integer('setor_id')->index('setor_id');
+            $table->integer('setores_id')->index('setores_id');
             $table->timestamps();
         });
     }

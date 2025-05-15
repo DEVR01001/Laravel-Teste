@@ -3,22 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cadeiras;
+use App\Models\Eventos;
 use App\Models\Setores;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Integer;
 
 class VendasController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($eventoId)
     {
-        $setores = Setores::with(['cadeiras']);
+        $eventoId = 1;
+        
+        $evento = Eventos::with('setores.cadeiras')->find($eventoId);
+        return view('vendas-listar', compact('evento'));
 
-        dd($setores);
-        return view('vendas-listar', compact('setores'));
 
     }
+
+    public function ingresso( $eventoId)
+    {
+
+
+        $evento = Eventos::with('setores.cadeiras')->find($eventoId);
+        return view('vendas-listar', compact('evento'));
+
+
+    }
+
+    
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -67,4 +83,8 @@ class VendasController extends Controller
     {
         //
     }
+
+  
+
+
 }
