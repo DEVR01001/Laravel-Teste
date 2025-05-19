@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingessos', function (Blueprint $table) {
+        Schema::create('ingressos', function (Blueprint $table) {
             $table->integer('id', true)->primary(true)->autoIncrement();
-            $table->string('qcode', 100);
+            $table->text('qcode');
             $table->integer('cadeira_id')->index('cadeira_id');
             $table->integer('usuario_id')->index('usuario_id');
             $table->integer('venda_id')->index('venda_id');
-            $table->enum('status_infresso', ['US', 'DP'])->nullable();
+            $table->enum('status_ingresso', ['US', 'DP'])->nullable();
              $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingessos');
+        Schema::dropIfExists('ingressos');
     }
 };

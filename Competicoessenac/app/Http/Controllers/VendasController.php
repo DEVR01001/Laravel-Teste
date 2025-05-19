@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cadeiras;
 use App\Models\Eventos;
 use App\Models\Setores;
+use App\Models\Vendas;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Integer;
 
@@ -39,9 +40,11 @@ class VendasController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+
+        
     }
 
     /**
@@ -49,8 +52,22 @@ class VendasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+   
+        $venda = Vendas::create([
+            'usuario_id' => $request->usuarios[1]['usuario_id'],
+            'status_venda' => 'AP',
+        ]);
+    
+        $id_venda = $venda->id;
+    
+  
+        $usuarios = $request->usuarios;
+   
+        return redirect()->route('ingressos.create', compact('id_venda', 'usuarios'));
+        
     }
+    
+    
 
     /**
      * Display the specified resource.

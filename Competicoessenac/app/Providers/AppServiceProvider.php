@@ -28,5 +28,14 @@ class AppServiceProvider extends ServiceProvider
 
         $usuariosTotal = Usuarios::all();
         view()->share('usuariosTotal', $usuariosTotal);
+        
+        $cart =  session('cart');
+        view()->share('cart', $cart);
+
+        $total = session('totalCart');
+    
+        view()->share('total', $total );
+
+      
     }
 }

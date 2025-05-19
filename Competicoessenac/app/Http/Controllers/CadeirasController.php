@@ -89,6 +89,8 @@ class CadeirasController extends Controller
 
     }
 
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -140,4 +142,9 @@ class CadeirasController extends Controller
 
         
     }
+
+
+
+
+  
 }

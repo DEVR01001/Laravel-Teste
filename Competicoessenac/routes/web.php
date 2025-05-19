@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\CadeirasController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartsController;
 use App\Http\Controllers\EventosController;
+use App\Http\Controllers\IngressosController;
 use App\Http\Controllers\PerfilsController;
+use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\SetoresController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\VendasController;
@@ -55,3 +59,18 @@ Route::get('/VendaEventos', function(){
 
 Route::get('/vendasIngresso/{id}', [VendasController::class, 'ingresso'])
     ->name('vendas.ingresso');
+
+
+
+    
+Route::resource('carts', CartController::class);
+
+
+Route::get('carts/{id}/delete', [CartController::class, 'delete'])->name('cart.delete');
+
+
+Route::resource('ingressos', IngressosController::class);
+
+
+
+Route::get('qr-code', [QRCodeController::class, 'index']);

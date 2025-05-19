@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Mail\Mailables\Content;
 
 class Usuarios extends Model
 {
@@ -25,5 +26,10 @@ class Usuarios extends Model
         return $this->hasOne(Perfils::class);
     }
 
- 
+    /**
+ * Get the message content definition.
+ */
+  
+
+
 }
