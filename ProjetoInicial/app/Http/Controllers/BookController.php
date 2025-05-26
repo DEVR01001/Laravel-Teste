@@ -57,6 +57,8 @@ class BookController extends Controller
         
     }
 
+    
+
     /**
      * Update the specified resource in storage.
      */
@@ -71,12 +73,8 @@ class BookController extends Controller
         ]);
 
         $book->update($validada);
-
         return redirect()->route('books.index');
 
-        
-
-        
     }
 
     /**
