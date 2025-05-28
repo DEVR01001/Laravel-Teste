@@ -18,10 +18,32 @@
 
 
     <div class="conatiner-btn-fn container justify-content-end">
-        <button id="btn-fn-1"  class="btn btn-info btn-lg">
+        <button data-modal='modal-1' class=" open-modal btn btn-info btn-lg btn-fn-1">
             Escolher Usuarios
-        </button>
+        </button> 
+        <button data-modal='modal-1' class=" open-modal btn btn-light btn-lg btn-fn-1">
+            Finalizar
+        </button> 
+
     </div>
+
+
+    <dialog id='modal-1'>
+
+        <div class="modal_header">
+            <h6>Adicionar Usuarios</h6> 
+            <button data-modal='modal-1' class="close-modal" >X</button>
+        </div>
+        <button class="btn-cad-user">Cadastrar Usuario</button>
+        <div id='container_modal' class="modal_body">
+
+        </div>
+
+
+    </dialog>
+
+ 
+
 
 
     <script>
@@ -29,8 +51,7 @@
         let ContainerChairs = document.getElementById('container_chair')
         let ContainerCart = document.getElementById('container_cart')
 
-
-
+        let ContainerModal = document.getElementById('container_modal')
 
 
 
@@ -65,7 +86,7 @@
 
                 ContainerCart.innerHTML += `
                 
-                <div class='cart-chair' > Cadeira: ${cartItem.chair} <div class='delete'   data-delete='${cartItem.cadeira}' > X </div> </div>
+                <div class='cart-chair' > Cadeira: ${cartItem.chair} <div class='delete'   data-delete='${cartItem.chair}' > X </div> </div>
                 
                 `
                 
@@ -73,6 +94,37 @@
 
 
 
+
+        }
+
+
+        function getCartUsers(cart){
+
+
+
+            if(cart == null){
+
+                ContainerModal.innerHTML = '';
+
+            }else{
+  
+                ContainerModal.innerHTML = '';
+
+                    cart.forEach(cartItem => {
+
+                        ContainerModal.innerHTML += `
+                        <div> </di>
+                    <div class='cart-chair' > Cadeira: ${cartItem.chair} <div class='delete'   data-delete='${cartItem.chair}' > X </div> </div>
+                        <select data-chair="${cartItem.chair}" class="js-example-basic-single search_users" name="state">
+
+                        </select>
+
+
+                    `;
+                })
+
+
+            }
 
         }
 
@@ -91,6 +143,8 @@
 
                 if(res.sucess == true){
                     getCart(res.cart)
+                    getCartUsers(res.cart)
+
 
                     console.log('ENTROU AQUI E ADD A CHAIR NO CART')
                 }
@@ -142,6 +196,9 @@
                 if(res.sucess == true){
 
                     getCart(res.cart)
+                    getCartUsers(null)
+                   
+    
 
                 }
 
@@ -152,27 +209,7 @@
         }
 
 
-        function checkVenda(){
-
-            $.ajax({
-                url: '/cart/venda/cadeiras',
-                method: 'POST',
-                data:{
-                    _token: '{{ csrf_token() }}'
-                }
-            })
-
-
-        }
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -187,7 +224,10 @@
 
             let carts = {{ Js::from($carts) }};
 
-            getCart(carts); 
+            getCart(carts);
+         
+        
+
         };
 
 
@@ -215,17 +255,66 @@
 
             cartClear();
 
+
         })
 
-
+    
 
         // Evento de quando clicar no btn "Escolher Usuario" abrir modal para selecionar  Usuarios para cada cadeira
+        
 
-        $(document).on('click', '.btn-fn-1', function(){
-            checkVenda();
+        $(document).ready(function () {
+
+        $('.open-modal').on('click', function () {
+            const modalId = $(this).data('modal');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+
+                modal.showModal();
+
+            $('.js-example-basic-single').select2({
+                ajax: {
+                    url: '{{route('users.search')}}',
+                    dataType: 'json',
+                },
+                dropdownParent: $('#modal-1') 
+            });
+
+        
 
 
-        })
+            }
+    
+        });
+
+
+    $('.close-modal').on('click', function () {
+            const modalId = $(this).data('modal');
+            const modal = document.getElementById(modalId);
+            if (modal){
+                
+                modal.close();
+            
+            } 
+
+        
+
+
+        });
+    });
+
+
+       
+
+      
+
+
+    
+
+
+
+
+    
 
 
 
