@@ -38,6 +38,7 @@
         <div id='container_modal' class="modal_body">
 
         </div>
+        <div class="conatiner_modal-btn" id='btn-fn-all'><button class="btn-fn2">Finalizar Venda</button></div>
 
 
     </dialog>
@@ -81,7 +82,6 @@
 
             ContainerCart.innerHTML = '';
 
-
             cart.forEach(cartItem => {
 
                 ContainerCart.innerHTML += `
@@ -92,42 +92,7 @@
                 
             });
 
-
-
-
         }
-
-
-        function getCartUsers(cart){
-
-
-
-            if(cart == null){
-
-                ContainerModal.innerHTML = '';
-
-            }else{
-  
-                ContainerModal.innerHTML = '';
-
-                    cart.forEach(cartItem => {
-
-                        ContainerModal.innerHTML += `
-                        <div> </di>
-                    <div class='cart-chair' > Cadeira: ${cartItem.chair} <div class='delete'   data-delete='${cartItem.chair}' > X </div> </div>
-                        <select data-chair="${cartItem.chair}" class="js-example-basic-single search_users" name="state">
-
-                        </select>
-
-
-                    `;
-                })
-
-
-            }
-
-        }
-
 
 
 
@@ -143,10 +108,7 @@
 
                 if(res.sucess == true){
                     getCart(res.cart)
-                    getCartUsers(res.cart)
 
-
-                    console.log('ENTROU AQUI E ADD A CHAIR NO CART')
                 }
             })
 
@@ -155,6 +117,25 @@
 
 
         }
+
+        
+       function getCartAll(){
+
+        return new Promise((resolver, reject) => {
+            $.ajax({
+                url: "/cart/all",
+                method: "GET",
+                success: function(response){
+                    resolver(response)
+                },
+                reject: function(error){
+                    reject(error)
+                }
+            });
+        });
+
+        }
+
 
 
 
@@ -196,7 +177,7 @@
                 if(res.sucess == true){
 
                     getCart(res.cart)
-                    getCartUsers(null)
+        
                    
     
 
@@ -206,6 +187,27 @@
                 
             })
 
+        }
+
+
+        function addCartUser(user,chair){
+
+            console.log(user,chair)
+
+            $.ajax(({
+                url: `cart/add/user/${user.id}/${chair}`,
+                method: 'POST',
+                data:{
+                      _token: '{{ csrf_token() }}'
+                }
+            })).done(function(res){
+
+                console.log('Atualizou o cart')
+            })
+
+
+
+            
         }
 
 
@@ -225,6 +227,8 @@
             let carts = {{ Js::from($carts) }};
 
             getCart(carts);
+
+            console.log(carts)
          
         
 
@@ -265,23 +269,42 @@
 
         $(document).ready(function () {
 
-        $('.open-modal').on('click', function () {
+        $('.open-modal').on('click', async function () {
+
+            var cart = await getCartAll()
+
+
             const modalId = $(this).data('modal');
             const modal = document.getElementById(modalId);
             if (modal) {
 
                 modal.showModal();
 
-            $('.js-example-basic-single').select2({
-                ajax: {
-                    url: '{{route('users.search')}}',
-                    dataType: 'json',
-                },
-                dropdownParent: $('#modal-1') 
-            });
+                ContainerModal.innerHTML = '';
 
-        
+                cart.forEach(cartItem => {
 
+                    ContainerModal.innerHTML += `
+                    <div> </di>
+                <div class='cart-chair' > Cadeira: ${cartItem.chair} <div class='delete'   data-delete='${cartItem.chair}' > X </div> </div>
+                    <select data-chair="${cartItem.chair}" id='select-${cartItem.chair}' class="js-example-basic-single search_users" name="state">
+
+                    </select>
+
+                `;
+                })
+
+                            
+
+                $('.js-example-basic-single').select2({
+                    ajax: {
+                        url: '{{route('users.search')}}',
+                        dataType: 'json',
+                    },
+                    dropdownParent: $('#modal-1') 
+                });
+
+            
 
             }
     
@@ -302,6 +325,41 @@
 
         });
     });
+
+
+    $(document).on('change', '.search_users', function(e){
+
+        let chair = $(this).data('chair')
+
+        $(`#select-${chair}`).on('select2:select', function (e){
+            var data = e.params.data;
+
+            addCartUser(data,chair)
+         
+        })
+
+    })
+
+
+    $(document).on('click', '#btn-fn-all', function(){
+
+        $.ajax(({
+            url: 'venda/insert',
+            method: 'POST',
+            data:{
+                _token: '{{ csrf_token() }}'
+            }
+        })).done(function(res){
+
+            if(res.success == true){
+
+                alert('Venda realizada com sucesso!')
+
+                window.location.reload();
+            }
+
+        })
+    })
 
 
        

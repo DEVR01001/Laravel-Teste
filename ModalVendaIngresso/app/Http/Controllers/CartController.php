@@ -77,6 +77,40 @@ class CartController extends Controller
    }
 
 
+   public function getCartAll(){
+
+    $cart = collect(session()->get('cart'));
+
+    return $cart;
+
+   }
+
+
+   public function addCartUser($user,$chair){
+
+    $carts = collect(session()->get('cart'));
+
+    $carts = $carts->map(function ($item) use ($user, $chair) {
+        if ($item['chair'] == $chair) {
+            $item['user'] = $user;
+        }
+        
+        return $item;
+    });
+
+
+    session()->put('cart', $carts->toArray());
+
+    return response()->json([
+        'sucess' => true,
+        'cart'=> session()->get('cart')
+    ]);
+
+   }
+
+
+
+
 
 
 
