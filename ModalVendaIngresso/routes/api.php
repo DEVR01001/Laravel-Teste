@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\SearchUsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,3 +18,7 @@ Route::get('/chairs/{cart?}', [CartController::class,'checkChairs'])->name('chec
 
 
 Route::get('/users', SearchUsersController::class)->name('users.search');
+
+
+
+

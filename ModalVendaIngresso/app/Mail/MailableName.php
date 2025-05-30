@@ -18,11 +18,12 @@ class MailableName extends Mailable
      */
     public function __construct(
 
-        public $usuario, 
-        public $cadeira, 
-        public $evento, 
-        public $qrcode,
+        public $user,
+        public $ingresso, 
+        public $chair, 
+        public $evento,
         public $pdfContent,
+        public $qrcode
        
      
     

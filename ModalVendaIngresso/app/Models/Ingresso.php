@@ -11,6 +11,5 @@ class Ingresso extends Model
         'usuario_id',
         'venda_id',
         'status_ingresso',
-        'qcode',
     ];
 }

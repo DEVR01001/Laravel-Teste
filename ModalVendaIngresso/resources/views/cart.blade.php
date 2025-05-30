@@ -5,7 +5,7 @@
 @section('body')
 
 
-    <h1 class="m-4">Chairs</h1>
+    <h1 class="m-4">Chairs</h1> 
     <div  class=" my-5 container" id="container_chair">
 
     </div>
@@ -34,11 +34,14 @@
             <h6>Adicionar Usuarios</h6> 
             <button data-modal='modal-1' class="close-modal" >X</button>
         </div>
-        <button class="btn-cad-user">Cadastrar Usuario</button>
+        <a href="/user/cadastro" class="btn-cad-user">Cadastrar Usuario</a>
         <div id='container_modal' class="modal_body">
 
         </div>
+        <div id='container_email_modal' class="container_email_modal"></div>
         <div class="conatiner_modal-btn" id='btn-fn-all'><button class="btn-fn2">Finalizar Venda</button></div>
+
+        <img id="qrcodeImg" src="" alt="" hidden>
 
 
     </dialog>
@@ -51,7 +54,8 @@
 
         let ContainerChairs = document.getElementById('container_chair')
         let ContainerCart = document.getElementById('container_cart')
-
+        let ContainerEmailModal = document.getElementById('container_email_modal')
+        let imgQrcode = document.getElementById("qrcodeImg")
         let ContainerModal = document.getElementById('container_modal')
 
 
@@ -62,7 +66,6 @@
                 url: `/chair/${id_setor}/`
             }).done(function(chairs){
 
-                console.log(chairs);
 
                 chairs.forEach(chair => {
 
@@ -151,7 +154,6 @@
 
                     addCartChair(id_chair)
 
-
                 }else{
                     alert(`Cadeira ${id_chair} não está disponivel!`);
                 }
@@ -228,8 +230,7 @@
 
             getCart(carts);
 
-            console.log(carts)
-         
+
         
 
         };
@@ -243,8 +244,6 @@
         $(document).on('click', '.btn-chair', function(){
             let id_chair = $(this).attr('data-chair');
 
-            console.log(id_chair)
-            
             checkChair(id_chair)
 
 
@@ -326,6 +325,8 @@
         });
     });
 
+     // Evento para adicionar/update no carrinho no paramentro 'user' apartir da mudança d eestado do input select
+        
 
     $(document).on('change', '.search_users', function(e){
 
@@ -341,8 +342,76 @@
     })
 
 
-    $(document).on('click', '#btn-fn-all', function(){
 
+    $(document).on('click', '.delete',  function(){
+
+        let chair = $(this).data('delete')
+      
+
+        $.ajax(({
+            url: `cart/delete/${chair}`,
+            method: 'DELETE',
+            data:{
+                _token: '{{ csrf_token() }}'
+            }
+        })).done( async function(res){
+
+            var cart = await getCartAll()
+
+            getCart(cart)
+        })
+
+    })
+
+
+
+
+
+
+
+
+    async  function gerarQrcode(url){
+
+        // let newQrcode = new QRCode()
+
+        // let qrcode = await QRCode().toDataURL(url)
+        await QRCode.toDataURL(url, function(err,caminho){
+            imgQrcode.src = caminho
+        })
+
+
+        // return qrcode
+
+    }
+
+
+
+
+     
+//     function getCartAll(){
+
+//     return new Promise((resolver, reject) => {
+//         $.ajax({
+//             url: "/cart/all",
+//             method: "GET",
+//             success: function(response){
+//                 resolver(response)
+//             },
+//             reject: function(error){
+//                 reject(error)
+//             }
+//         });
+//     });
+
+// }
+
+
+
+
+
+    $(document).on('click', '#btn-fn-all', async function(){
+
+        
         $.ajax(({
             url: 'venda/insert',
             method: 'POST',
@@ -353,12 +422,55 @@
 
             if(res.success == true){
 
-                alert('Venda realizada com sucesso!')
 
-                window.location.reload();
+                console.log(res.ingresso_id)
+
+                res.ingresso_id.forEach(ingressoId => {
+
+
+
+                    $.ajax(({
+                        url: `/qrcode/save/${ingressoId}`,
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        }
+                    })).done(function(res){
+
+                        console.log(res.qrcode)
+
+                        gerarQrcode(res.qrcode)
+
+                        console.log(imgQrcode.src)
+
+               
+                        let IngressoId = res.ingresso_id
+
+                        $.ajax(({
+                            url: `/ingresso/mail/${IngressoId}`,
+                            method: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                srcEmail: `${imgQrcode.src}`
+                            }
+                            
+                        })).done(function(res){
+
+                            console.log(res)
+
+                        })
+
+
+                    })
+                    
+                });
+
+
             }
 
         })
+
+        
     })
 
 

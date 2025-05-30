@@ -77,6 +77,26 @@ class CartController extends Controller
    }
 
 
+   public function deleteUniChair($id_chair){
+
+    $cart = collect(session()->get('cart'));
+
+    $Newcart = $cart->reject(function ($itemCart) use ($id_chair) {
+        return $itemCart['chair'] == $id_chair;
+    });
+
+    session()->put('cart', $Newcart->values()->all());
+
+
+    return response()->json([
+        'success' => true,
+        
+    ]);
+
+
+   }
+
+
    public function getCartAll(){
 
     $cart = collect(session()->get('cart'));
@@ -85,6 +105,9 @@ class CartController extends Controller
 
    }
 
+
+
+   
 
    public function addCartUser($user,$chair){
 
