@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Event;
+use Illuminate\Http\Request;
+
+class EventController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+
+        $events = Event::all();
+
+        return view('adm.listar_eventos', compact('events'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validado = $request->validate([
+            'name' => 'required',
+            'date_event' => 'required',
+            'time_event' => 'required',
+            'street' => 'required',
+            'cep' => 'required',
+            'city' => 'required',
+            'logo' => 'required',
+            'capacidade_pessoas' => 'required',
+            'neighborhood' => 'required',
+            'number' => 'required',
+        ]);
+
+
+        Event::create($validado);
+
+        return redirect()->route('event.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        
+        $eventEdit = Event::find($id);
+
+        return view('adm.listar_eventos', compact('eventEdit'));
+
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+        public function edit($id)
+    {
+        $eventEdit = Event::findOrFail($id);
+        return view('nome-da-sua-view', compact('eventEdit'));
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        
+        $validado = $request->validate([
+            'name' => 'required',
+            'date_event' => 'required',
+            'time_event' => 'required',
+            'street' => 'required',
+            'cep' => 'required',
+            'city' => 'required',
+            'logo' => 'required',
+            'capacidade_pessoas' => 'required',
+            'neighborhood' => 'required',
+            'number' => 'required',
+        ]);
+
+        $event = Event::find($id);
+
+     
+        $event->update($validado);
+
+
+
+        return redirect()->route('event.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        
+
+        $event = Event::find($id);
+
+  
+
+        $event->delete();
+
+        return redirect()->route('event.index');
+
+
+    }
+}
