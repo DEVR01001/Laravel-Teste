@@ -6,8 +6,8 @@
 
     <nav>
         <ul>
-            <a href="eventos-saller">Eventos</a>
-            <a href="usuarios-saller">Usuarios</a>
+            <a href="/eventos-saller">Eventos</a>
+            <a href="/usuarios-saller">Usuarios</a>
         </ul>
         <ul>
             <a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a>
@@ -15,6 +15,7 @@
     </nav>
     
 @endsection
+
 
 
 
@@ -43,20 +44,80 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Rafael Rodrigues</td>
-                    <td>5000</td>
-                    <td>343453</td>
-                    <td>Cliente</td>
-                    <td>
-                        <div class="container-icon d-flex gap-2">
-                            <i class="fa-solid fa-gear text-secondary cursor-pointer"></i>
-                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+
+                @foreach ($usersSaller as $user)
+                    <tr>
+                        <th scope="row">{{$user->id}}</th>
+                        <td>{{$user->first_name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->cpf}}</td>
+                        <td>{{$user->profile}}</td>
+                        <td>
+                            <div class="container-icon d-flex gap-2">
+                                <a  class="openModalBtn" href="#" data-id="{{$user->id}}" > <i class="fa-solid fa-gear text-secondary cursor-pointer"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+
+            
+                    <div id="myModal{{$user->id}}" class="custom-modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p class="title-form">Editar Usuario</p>
+                            <form class="form-modal"  method='post'  action="{{route('user.update', $user->id)}}">
+                                @csrf
+                                @method('PUT')
+                                <div class="row">
+                                    <div class="col-6 coluna-form-modal">
+                                        <div class="flex-input">
+                                            <label for="">Nome</label>
+                                            <input name='first_name' class="form-control" type="text" value="{{$user->first_name}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 coluna-form-modal">
+                                        <div class="flex-input">
+                                            <label for="">CPF</label>
+                                            <input name='cpf' id="input-sm" class="form-control" type="text" value="{{$user->cpf}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 coluna-form-modal">
+                                        <div class="flex-input">
+                                            <label for="">Sobrenome</label>
+                                            <input name='last_name'  class="form-control" type="text" value="{{$user->last_name}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 coluna-form-modal">
+                                        <div class="flex-input">
+    
+                                            <input name='password'  class="form-control" type="hidden" value="{{$user->password}}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-6 coluna-form-modal">
+                                        <div class="flex-input">
+                                            <label for="">Email</label>
+                                            <input name='email'  class="form-control" type="email" value="{{$user->email}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 coluna-form-modal">
+                                        <div class="flex-input">
+                                            <input type="hidden" name="profile" value="{{$user->profile}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="container_btn_form">
+                                
+                                    <button type="button">Cancelar</button>
+                                    <button type="submit">Editar</button>
+                                </div>
+                            </form>
+                            
+                            
                         </div>
-                    </td>
-                </tr>
-                
+                    </div>
+                    
+                @endforeach
+            
 
             </tbody>
         </table>

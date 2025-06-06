@@ -82,7 +82,7 @@ class UserController extends Controller
 
         $user->update($validado);
 
-        return redirect()->route('user.index');
+        return redirect()->back();
     }
 
     /**

@@ -37,22 +37,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-
-        $(document).ready(function() {
-            $('.openModalBtn').click(function() {
-            let itemId = $(this).data('id');
-            $('#modalItemId').text(itemId);
-            $(`#myModal${itemId}`).fadeIn();
+        $(document).ready(function () {
+    
+            $('.openModalBtn').click(function (e) {
+                e.preventDefault(); 
+                let itemId = $(this).data('id');
+                $(`#myModal${itemId}`).fadeIn();
             });
-
-            $(`.close, .fechar${itemId} .custom-modal`).click(function(e) {
-            if (e.target === this) {
-                $(`#myModal${itemId}`).fadeOut();
-            }
-        });
-
+    
+            $('.custom-modal').click(function (e) {
+                if ($(e.target).hasClass('custom-modal') || $(e.target).hasClass('close')) {
+                    $(this).fadeOut();
+                }
+            });
+    
         });
     </script>
+      
 
 
 

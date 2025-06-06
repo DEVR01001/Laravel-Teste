@@ -3,14 +3,12 @@
 
 
 
-
-
 @section('saller')
 
     <nav>
         <ul>
-            <a href="eventos-saller">Eventos</a>
-            <a href="usuarios-saller">Usuarios</a>
+            <a href="/eventos-saller">Eventos</a>
+            <a href="/usuarios-saller">Usuarios</a>
         </ul>
         <ul>
             <a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a>
@@ -18,6 +16,7 @@
     </nav>
     
 @endsection
+
 
 
 
@@ -34,12 +33,18 @@
 
         <section class="event-cards">
 
-            <div class="card-event">
-                <img src="{{asset('images/3.png')}}" alt="">
-                <p>Senac Music</p>
-                <p>Qut. Assetos Disponiveis: 5000</p>
-                <a href="">Ver Evento</a>
-            </div>
+            @foreach ($eventosSaller as $event)
+
+        
+                <div class="card-event">
+                    <img src="{{asset('images/3.png')}}" alt="">
+                    <p>{{$event->name}}</p>
+                    <p>{{$event->capacidade_pessoas}}</p>
+                    <a href="{{route('sectorSaller.chairsSector', ['id' => $event->id])}}">Ver Evento</a>
+                </div>
+                    
+            @endforeach
+
 
         </section>
 

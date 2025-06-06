@@ -67,6 +67,15 @@ class AppServiceProvider extends ServiceProvider
         view()->share('quantUsuariosSaller', $quantUsuariosSaller);
 
 
+        $usersSaller = User::where('profile','client')->get();
+        view()->share('usersSaller', $usersSaller);
+
+        $eventosSaller = Event::all();
+        view()->share('eventosSaller', $eventosSaller);
+
+
+
+
 
 
     }

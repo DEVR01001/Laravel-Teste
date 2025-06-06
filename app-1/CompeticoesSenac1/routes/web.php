@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChairController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\TicketController;
@@ -23,6 +24,18 @@ Route::resource('sector', SectorController::class);
 Route::resource('ticket', TicketController::class);
 Route::resource('event', EventController::class);
 Route::resource('chair',ChairController::class);
+
+Route::resource('map', MapController::class);
+
+
+
+
+
+
+
+Route::get('sectorSaller/{id}', [SectorController::class, 'chairsSector'])->name('sectorSaller.chairsSector');
+
+
 
 
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->integer('id', true)->primary()->autoIncrement();
+            $table->integer('cpf');
             $table->string('first_name', 100);
             $table->string('last_name', 100)->nullable();
             $table->string('email')->unique('email');

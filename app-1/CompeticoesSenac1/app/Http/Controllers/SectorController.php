@@ -43,26 +43,25 @@ class SectorController extends Controller
 
     $totalCadeiras = $request->quantity_chairs * $request->quantity_rows;
 
+    
 
 
-    for ($i = 1; $i <= $totalCadeiras; $i++) {
-        if($sectorNew->level == 'vip'){
-            Chair::create([
-                'number_chair' => $i,
-                'status_chair' => 'available',
-                'level_chair' => 'vip',
-                'sector_id' => $sectorNew->id
-            ]);
+    $i = 1;
 
-        }else{
-             Chair::create([
+
+    $level = $validado['level'] === 'vip' ? 'vip' : 'common';
+
+    while ($i < ($totalCadeiras+1)) {
+        Chair::create([
             'number_chair' => $i,
             'status_chair' => 'available',
-            'level_chair' => $request->level,
-            'sector_id' => $sectorNew->id
+            'level_chair'  => $level,
+            'sector_id'    => $sectorNew->id
         ]);
-        }
+    
+        $i++;
     }
+    
 
     return redirect()->route('sector.show', $request->event_id);
 }
@@ -139,9 +138,32 @@ class SectorController extends Controller
     {
         $sector = Sector::find($id);
 
-
         $sector->delete();
 
         return redirect()->route('sector.show', $sector->event_id);
     }
+
+
+
+
+
+
+    public function chairsSector(string $id){
+
+        $event = Event::with('sectors.chairs')
+                    ->findOrFail($id);
+
+        return view('saller.setores_saller', compact('event'));
+
+    }
+
+
+
+
+
+
+
+
+
+
 }
