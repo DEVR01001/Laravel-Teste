@@ -298,17 +298,18 @@ i{
 
 
 
+/* .custom-modal com z-index bem maior */
 .custom-modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.404);
-  }
-  
+  display: none; /* inicia escondido */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100000 !important; /* maior que os dialogs */
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
   .modal-content {
     background: #fff;
     padding: 2rem;
@@ -1115,6 +1116,223 @@ MAPA SETORES  */
     height: 100% ;
     font-weight: 500;
 }
+
+
+.d-none {
+    display: none;
+}
+
+
+
+.container-flex-search{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+.search_users{
+    width: 100%;
+    border-radius: 5px;
+    padding-top: 1rem;
+
+   
+}
+
+.btn-cadastrar-user-cart{
+    display: flex;
+    width: 25%;
+    height: 40px;
+    margin-bottom: 1rem;
+    background-color: var(--blue);
+    font-weight: 500;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color:  white;
+    border-radius: 5px;
+}
+/* força o z-index do select2 dropdown */
+.select2-container {
+  z-index: 100000 !important;
+}
+
+
+dialog:not([open]){
+
+    display: none;
+    outline: none;
+
+}
+
+
+dialog::backdrop{
+    background-color: #00000080;
+    outline: none;
+}
+
+
+dialog{
+    padding: 4rem;
+    width: 60%;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    height: 80%;
+    justify-self: center;
+    align-self: center;
+    position: fixed;
+    border: none;
+    border-radius: 5px;
+    flex-direction: column;
+
+}
+
+
+.modal_header{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+
+}
+
+.modal_header button{
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    background-color: rgb(255, 183, 183);
+    align-items: center;
+    color: rgb(110, 15, 15);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.modal_header button:hover{
+    background-color: rgb(255, 149, 149);
+    
+}
+
+
+.modal_body{
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: 10px;
+    flex-direction: column;
+
+
+}
+
+.modal_header h6{
+    display: flex;
+    width: 100%;
+    
+    align-items: center;
+    font-size: 25px;
+    font-weight: 400;
+    color: rgb(56, 56, 56);
+}
+
+
+
+
+.btn-cad-user{
+    width: 12rem;
+    height: 3rem;
+    border: none;
+    border-radius: 5px;
+    margin: 1rem;
+    margin-left: 0;
+    background-color: rgb(185, 255, 185);
+    color: rgb(6, 158, 6);
+    font-size: 18px;
+    font-weight: 500;
+    justify-self: end;
+    align-self: flex-end;
+    transition: all 0.2s ease;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    display: flex;
+
+}
+
+.btn-cad-user:hover{
+    background-color: rgb(215, 255, 215);
+    transform: scale(1.05);
+}
+
+
+.conatiner_modal-btn{
+    width: 100%;
+    justify-content: end;
+    margin-top: 3rem;
+    display: flex;
+}
+
+
+
+.conatiner_modal-btn .btn-fn2{
+    display: flex;
+    width: 10rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    height: 3rem;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(255, 102, 0);
+    color: white;
+    font-weight: 500;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

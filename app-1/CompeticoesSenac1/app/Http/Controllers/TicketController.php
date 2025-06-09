@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -27,7 +28,31 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $ingresoIdArray = [];
+
+        foreach ($request->cart as $cartItem) {
+            
+            $ticket = Ticket::create([
+                'sale_id' => $request->id_sale,
+                'user_id' => $cartItem['id_user'],
+                'chair_id' => $cartItem['id_chair'],
+                'status_ticket' => 'available'
+            ]);
+
+            array_push($ingresoIdArray, $ticket->id);
+
+
+        }
+
+        return response()->json([
+            'id_ticket' => $ingresoIdArray,
+            'sucess' => true
+
+        ]);
+
+   
+        
     }
 
     /**

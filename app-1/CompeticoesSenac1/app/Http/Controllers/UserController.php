@@ -100,4 +100,66 @@ class UserController extends Controller
         return redirect()->route('user.index');
 
     }
+
+
+
+  public function getUser(Request $request) {
+
+        $searchValue = $request->get('q') ?? null;
+
+        if(is_Null($searchValue)){
+
+            $users = User::limit(10)->get();
+            
+        }else{
+
+            $users = User::where('first_name', 'like', "%{$searchValue}%")->orWhere('email', 'like', "%{$searchValue}%")->orWhere('last_name', 'like', "%{$searchValue}%")->get();
+        }
+
+
+        $response = $users->map(function($user){
+
+            return [
+                'id' => $user->id,
+                'text' => "Nome: {$user->first_name} {$user->last_name} / Email: {$user->email}"
+            ];
+        });
+
+
+
+        return[
+            'results' => $response
+        ];
+
+    }
+
+
+
+    public function CreateUserSaller(Request $request){
+
+          $validado = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'profile' => 'required',
+            'cpf' => 'required',
+        ]);
+
+
+        User::create($validado);
+
+        return response()->json([
+            'msg' => 'Cadastro Concluido'
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
 }

@@ -32,7 +32,7 @@
 
         <div class="modal_header">
             <h6>Adicionar Usuarios</h6> 
-            <button data-modal='modal-1' class="close-modal" >X</button>
+
         </div>
         <a href="/user/cadastro" class="btn-cad-user">Cadastrar Usuario</a>
         <div id='container_modal' class="modal_body">

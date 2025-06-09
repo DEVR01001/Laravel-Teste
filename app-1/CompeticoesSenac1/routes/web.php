@@ -4,6 +4,7 @@ use App\Http\Controllers\ChairController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\TicketController;
@@ -24,8 +25,8 @@ Route::resource('sector', SectorController::class);
 Route::resource('ticket', TicketController::class);
 Route::resource('event', EventController::class);
 Route::resource('chair',ChairController::class);
-
 Route::resource('map', MapController::class);
+Route::resource('qrcode', QrcodeController::class);
 
 
 
@@ -58,3 +59,20 @@ Route::get('/usuarios-saller', function(){
 Route::get('/ticketlist', function(){
     return view('adm.listar_ingressos');
 });
+
+
+
+Route::get('userCart', [UserController::class, 'GetUser'])->name('userCart.getUser');
+
+
+Route::post('userCart', [UserController::class, 'CreateUserSaller'])->name('userCart.CreateUserSaller');
+
+
+
+
+// QRCODE
+
+Route::post('/ingresso/mail/{IngressoId}', [QrcodeController::class, 'EmailIngresso']);
+
+
+Route::post('/qrcode/store/{idIngresso}', [QrcodeController::class, 'store'])->name('qrcode.store');
