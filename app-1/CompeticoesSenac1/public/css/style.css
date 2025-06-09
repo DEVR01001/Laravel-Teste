@@ -680,7 +680,6 @@ i{
     display: flex;
     border-radius: 5px;
     border: 1px solid var(--gray);
-    var(--white)100%;
     gap: 1rem;
     width: 100%;
   
@@ -731,7 +730,7 @@ i{
     align-items: center;
     background-color: #2deb14;
     cursor: pointer;
-    color: rgb(15, 85, 6);
+    color: #0f5506;
 
 }
 
@@ -1002,6 +1001,7 @@ MAPA SETORES  */
     padding: 5px;
     border-radius: 5px;
     gap: 10px;
+
 }
 
 .map-chair {
@@ -1128,10 +1128,22 @@ MAPA SETORES  */
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 
+.cart-chair{
+    background-color: var(--orange);
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
 
+}
 .search_users{
     width: 100%;
     border-radius: 5px;
@@ -1153,6 +1165,7 @@ MAPA SETORES  */
     font-size: 1.1rem;
     color:  white;
     border-radius: 5px;
+    margin-bottom: 2rem;
 }
 /* força o z-index do select2 dropdown */
 .select2-container {
@@ -1336,9 +1349,6 @@ dialog{
 
 
 
-
-
-
 @media (max-width: 1326px) {
     .conatiner-btn-cad{
         width: 20%;
@@ -1358,6 +1368,8 @@ dialog{
 
     
 }
+
+
 
 @media (max-width: 1170px) {
     .container-fluid{
@@ -1389,6 +1401,13 @@ dialog{
     .modal-content{
         width: 80%;
     }
+
+
+    .btn-cadastrar-user-cart{
+        width: 40%;
+        font-size: 1rem;
+    }
+
 
     
 }
@@ -1477,9 +1496,20 @@ dialog{
 }
 @media (max-width: 768px) {
 
+    .btn-cadastrar-user-cart{
+        width: 50%;
+
+    }
+
     .modal-content{
         width: 95%;
        
+    }
+
+    dialog{
+        width: 80%;
+
+        padding: 2rem;
     }
   
 
@@ -1548,9 +1578,17 @@ dialog{
 
 @media (max-width: 576px) {
 
-    
+
+    dialog{
+        width: 95%;
+        padding: 1rem;
+    }
 
     
+
+    .btn-cadastrar-user-cart{
+        width: 65%;
+    }
     .flex-input {
         width: 100%;
         display: flex;

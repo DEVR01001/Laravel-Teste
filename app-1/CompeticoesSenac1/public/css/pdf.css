@@ -1,0 +1,169 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+
+*{
+    font-family: "Inter", sans-serif;
+}
+
+
+
+
+
+.container_ingresso{
+    display: flex;
+    width: 100%;
+    justify-self: center;
+    align-self: center;
+    flex-direction: column;
+ 
+}
+
+
+
+.container_ingresso_header{
+    display: flex;
+    justify-content: space-between;
+ 
+}
+
+.container_ingresso_footer{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
+
+
+.shape-ingresso-2{
+    display: flex;
+    width: 25%;
+    height: 120px;
+    background-color: #FF9A0D;
+    border-radius: 0px 0px 10px 10px;
+
+}
+.shape-ingresso{
+    display: flex;
+    width: 25%;
+    height: 120px;
+    background-color: #FF9A0D;
+    border-radius: 10px 10px 0px 0px;
+}
+
+
+.container_ingresso_body{
+    background-color: #FF9A0D;
+    padding: 1rem;
+}
+
+
+
+.container_border_ingresso{
+    display: flex;
+    border: 1px solid #8f530036;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.container_primary_ingresso{
+    background-color: white;
+    display: flex;
+    padding: 2rem;
+    flex-direction: column;
+    border-radius: 10px;
+    gap: 2rem;
+}
+
+.logo-ingresso{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    
+}
+
+
+.logo-ingresso img{
+    display: flex;
+    width: 40%;
+    height: 150px;
+    object-fit: cover;
+}
+
+
+
+
+
+.container_qrcode{
+    display: flex;
+
+    flex-direction: column;
+    gap: 10px;
+    color: #7D7D7D;
+}
+
+
+
+
+.conatiner_text_ingresso{
+    display: flex;
+    color: #525252;
+
+    text-align: justify;
+    line-height: 22px;
+
+}
+
+
+
+.container_local_data_chair_ingresso{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+.item-ingresso{
+    display: flex;
+    width: 60%;
+    gap: 1rem;
+  
+
+}
+
+.item-ingresso i{
+    color: #7D7D7D
+;
+    font-size: 1.5rem;
+    padding-top: 1rem;
+}
+
+
+.conatiner-text-item-ingresso{
+    display: flex;
+    flex-direction: column;
+}
+.conatiner-text-item-ingresso p{
+    font-size: 1rem;
+    color: #525252;
+    font-weight: 600;
+}
+
+.conatiner-text-item-ingresso span{
+    font-size: 0.9rem;
+    color: #7D7D7D;
+    font-weight: 500;
+}
+
+.shape-linha{
+    width: 60%;
+    height: 1px;
+    background-color: #ececec;
+}

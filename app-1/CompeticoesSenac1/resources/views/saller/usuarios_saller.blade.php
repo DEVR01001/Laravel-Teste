@@ -2,21 +2,8 @@
 
 
 
-@section('saller')
 
-    <nav>
-        <ul>
-            <a href="/eventos-saller">Eventos</a>
-            <a href="/usuarios-saller">Usuarios</a>
-        </ul>
-        <ul>
-            <a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a>
-        </ul>
-    </nav>
-    
-@endsection
-
-
+@include('saller.navbar-saller')
 
 
 @section('container-user')

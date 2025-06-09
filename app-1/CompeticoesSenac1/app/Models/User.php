@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable
 {
- 
+    use Notifiable;
 
     protected $fillable = [
-        'first_name' ,
-        'last_name' ,
-        'email' ,
-        'password' ,
-        'password' ,
-        'profile' ,
-        'cpf' ,
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'profile',
+        'cpf',
     ];
 
     public function sales()
@@ -24,21 +23,8 @@ class User extends Model
         return $this->hasMany(Sale::class);
     }
 
-
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
     }
-
-
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
-    }
-
-
-
-    
-
-    
 }

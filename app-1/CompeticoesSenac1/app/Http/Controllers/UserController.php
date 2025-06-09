@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,17 +31,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validado = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'profile' => 'required',
-            'cpf' => 'required',
-        ]);
 
-     
+        Hash::make($request->password);
 
+        if($request->profile =='client'){
+
+            $validado = $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email',
+                'profile' => 'required',
+                'cpf' => 'required',
+            ]);
+    
+        }else{
+
+            $validado = $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email',
+                'password' => 'required|min:6',
+                'profile' => 'required',
+                'cpf' => 'required',
+            ]);
+
+
+        }
+
+        $validado['password'] = Hash::make($request->password);
+   
         User::create($validado);
 
         return redirect()->route('user.index');
@@ -77,6 +96,7 @@ class UserController extends Controller
         ]);
 
    
+        $validado['password'] = Hash::make($request->password);
 
         $user = User::find($id);
 
@@ -144,6 +164,8 @@ class UserController extends Controller
             'profile' => 'required',
             'cpf' => 'required',
         ]);
+
+
 
 
         User::create($validado);

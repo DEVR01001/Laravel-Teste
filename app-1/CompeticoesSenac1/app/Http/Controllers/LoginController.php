@@ -35,8 +35,12 @@ class LoginController extends Controller
             'password' => 'required',
         ]); 
 
+   
+
 
         if(Auth::attempt($validado)){
+
+         
 
             $request->session()->regenerate();
     
@@ -44,17 +48,28 @@ class LoginController extends Controller
 
             switch ($user->profile) {
                 case 'admin':
-                    return view('adm.dashbord');
+                    return redirect()->route('event.index');
                 case 'totem':
                     return view('totem.totem');
                 case 'saller':
-                    return view('vendedor.checkout'); 
+                    return view('saller.eventos_saller'); 
             }
-
-            
 
         }
 
+        $msg = 'Email ou senha estão incorretos';
+        return view('login', compact('msg'));
+
+    }
+
+
+    public function logout(Request $request){
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.index');
     }
 
     /**

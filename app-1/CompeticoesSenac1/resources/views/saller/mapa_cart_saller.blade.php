@@ -4,21 +4,7 @@
 
 
 
-@section('saller')
-
-    <nav>
-        <ul>
-            <a href="/eventos-saller">Eventos</a>
-            <a href="/usuarios-saller">Usuarios</a>
-        </ul>
-        <ul>
-            <a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a>
-        </ul>
-    </nav>
-    
-@endsection
-
-
+@include('saller.navbar-saller')
 
 
 
@@ -395,13 +381,15 @@ document.addEventListener("DOMContentLoaded", function () {
   
     $(document).on('click', '.btn-add-chair', function (e) {
 
-    
-        
+
         let id_chair = $(this).attr('data-chair');
         addCart(id_chair);
     });
 
     $(document).on('click', '.delete-chair', function () {
+
+
+
         let id_chair = $(this).attr('data-chair');
         deleteChair(id_chair);
     });
@@ -450,7 +438,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 html += `
                     <div class='container-flex-search'>
                         <div class='cart-chair'>Cadeira: ${itemCart.id_chair}</div>
-                      <select data-chair="${itemCart.id_chair}" id='select-${itemCart.id_chair}' class="search_users" name="state"></select>
+                      <select data-chair="${itemCart.id_chair}" id='select-${itemCart.id_chair}' class="search_users js-example-responsive" style="width: 100%" name="state"></select>
 
                     </div>
                 `;

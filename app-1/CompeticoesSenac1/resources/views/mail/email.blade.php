@@ -5,7 +5,8 @@ Seu ingresso para o evento **{{ $evento->name }}** está pronto.
 
 - **Setor**: {{ $chair->sector->name }}
 - **Cadeira**: {{ $chair->number_chair }}
-- **Data do Evento**: {{ $evento->date }}
+- **Data do Evento**: {{ $evento->date_event }}
+- **Horário do Evento**: {{ $evento->time_event }}
 
 ---
 
@@ -14,5 +15,5 @@ Seu ingresso para o evento **{{ $evento->name }}** está pronto.
 
 Você também receberá um PDF com todos os detalhes.
 
-Obrigado por sua compra!  
+Obrigado por sua Reserva!  
 @endcomponent

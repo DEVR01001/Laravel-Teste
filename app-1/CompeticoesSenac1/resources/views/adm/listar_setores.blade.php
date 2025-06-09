@@ -28,7 +28,7 @@
     </ul>
 
     <div class="conatiner_logout">
-        <a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
+        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</
     </div>
 
 </header>

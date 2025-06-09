@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chair;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
@@ -31,9 +32,10 @@ class SaleController extends Controller
 {
     $cart = $request->input('cart');
 
- 
+    $user =  Auth::user();
+
     $sale = Sale::create([
-        'user_id' => 2, 
+        'user_id' => $user->id, 
         'status_sale' => 'approved',
     ]);
 

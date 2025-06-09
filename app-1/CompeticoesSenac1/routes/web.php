@@ -9,11 +9,10 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\IsAdm;
+use App\Http\Middleware\IsSaller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('adm.listar_eventos');
-});
 
 
 
@@ -30,49 +29,69 @@ Route::resource('qrcode', QrcodeController::class);
 
 
 
-
-
-
-
-Route::get('sectorSaller/{id}', [SectorController::class, 'chairsSector'])->name('sectorSaller.chairsSector');
-
-
-
-
-
-Route::get('/eventos-saller', function(){
-    return view('saller.eventos_saller');
-});
-
-
-Route::get('/cart', function(){
-    return view('saller.mapa_cart_saller');
-});
-
-
-
-Route::get('/usuarios-saller', function(){
-    return view('saller.usuarios_saller');
-});
-
-
 Route::get('/ticketlist', function(){
     return view('adm.listar_ingressos');
 });
 
 
 
-Route::get('userCart', [UserController::class, 'GetUser'])->name('userCart.getUser');
 
 
-Route::post('userCart', [UserController::class, 'CreateUserSaller'])->name('userCart.CreateUserSaller');
+Route::middleware([IsSaller::class])->group(function(){
+
+    Route::get('sectorSaller/{id}', [SectorController::class, 'chairsSector'])->name('sectorSaller.chairsSector');
+
+    
+    Route::get('/eventos-saller', function(){
+        return view('saller.eventos_saller');
+    });
+
+    Route::get('/cart', function(){
+        return view('saller.mapa_cart_saller');
+    });
+
+    
+    Route::get('/usuarios-saller', function(){
+        return view('saller.usuarios_saller');
+    });
+
+    
+    Route::get('userCart', [UserController::class, 'GetUser'])->name('userCart.getUser');
+
+    
+
+    Route::post('userCart', [UserController::class, 'CreateUserSaller'])->name('userCart.CreateUserSaller');
+
+
+    Route::post('/ingresso/mail/{IngressoId}', [QrcodeController::class, 'EmailIngresso']);
+
+
+    Route::post('/qrcode/store/{idIngresso}', [QrcodeController::class, 'store'])->name('qrcode.store');
+
+
+});
 
 
 
 
-// QRCODE
+route::get('/stylePDf', function(){
+    return view('pdf.ingresso');
+});
 
-Route::post('/ingresso/mail/{IngressoId}', [QrcodeController::class, 'EmailIngresso']);
 
 
-Route::post('/qrcode/store/{idIngresso}', [QrcodeController::class, 'store'])->name('qrcode.store');
+
+
+Route::get('logout', [LoginController::class, 'logout']);
+
+
+
+
+Route::get('/testecam', function(){
+
+    return view('testecam');
+});
+
+
+
+

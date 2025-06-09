@@ -36,9 +36,13 @@ class QrcodeController extends Controller
      */
    public function store(Request $request, $ticketId)
     {
+
+
+
         $qrcode = Qrcode::create([
             'ticket_id' => $ticketId,
             'qr_code' => $ticketId,
+
         ]);
 
         return response()->json([
