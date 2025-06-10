@@ -177,6 +177,36 @@ class UserController extends Controller
 
 
 
+    public function GetUserType($type)
+    {
+        if ($type == 'todos') {
+            $users = User::all();
+        } else {
+            $users = User::where('profile', $type)->get();
+        }
+    
+        return response()->json(['users' => $users]);
+    }
+
+
+    public function GetSearchUser($search){
+
+        if($search == ''){
+
+            $users = User::all();
+            
+        }else{
+
+            $users = User::where('first_name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%")->orWhere('last_name', 'like', "%{$search}%")->get();
+        }
+
+        return response()->json(['users' => $users]);
+
+
+    }
+    
+
+
 
 
 

@@ -28,7 +28,8 @@
     </ul>
 
     <div class="conatiner_logout">
-        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</
+        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
+
     </div>
 
 </header>
@@ -75,15 +76,15 @@
 
     <section class="conatiner-search">
         <div class="conatiner_select">
-            <select name="" id="">
-                <option value="">Todos</option>
-                <option value="">Administradores</option>
-                <option value="">Clientes</option>
-                <option value="">Vendedores</option>
-                <option value="">Totems</option>
+            <select name="" id="select-user">
+                <option value="todos">Todos</option>
+                <option value="admin">Administradores</option>
+                <option value="client">Clientes</option>
+                <option value="saller">Vendedores</option>
+                <option value="totem">Totems</option>
             </select>
         </div>
-        <input type="text">
+        <input type="search" id='serch-item'>
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
 
     </section>
@@ -106,7 +107,7 @@
                 @foreach ($users as $user)
                     <tr>
                         <th scope="row">{{$user->id}}</th>
-                        <td>{{$user->name}}</td>
+                        <td>{{$user->first_name}}</td>
                         <td>{{$user->email}}</td>
                         <td>{{$user->cpf}}</td>
                         <td>{{$user->profile}}</td>
@@ -142,7 +143,7 @@
                                     <div class="col-6 coluna-form-modal">
                                         <div class="flex-input">
                                             <label for="">CPF</label>
-                                            <input name='cpf' id="input-sm" class="form-control" type="text" value="{{$user->cpf}}">
+                                            <input name='cpf' class="input-sm form-control" type="text" value="{{$user->cpf}}">
                                         </div>
                                     </div>
                                     <div class="col-6 coluna-form-modal">
@@ -222,7 +223,7 @@
                 <div class="col-6 coluna-form-modal">
                     <div class="flex-input">
                         <label for="">CPF</label>
-                        <input name='cpf' id="input-sm" class="form-control" type="text" >
+                        <input name='cpf' class=" input-sm form-control" type="text" >
                     </div>
                 </div>
                 <div class="col-6 coluna-form-modal">
@@ -270,3 +271,122 @@
         
 @endsection
 
+
+
+
+<script>
+
+
+
+    window.onload = function(){
+
+
+        $(document).on('change', '#serch-item', function(){
+
+            let searchUser = $(this).val();
+
+            $.ajax({
+                url: `api/user/search/${searchUser}`,
+            }).done(function(res){
+
+                let tableBody = document.querySelector(".coantiner-table tbody");
+                tableBody.innerHTML = ""; 
+
+                res.users.forEach(user => {
+                    tableBody.innerHTML += `
+                        <tr>
+                            <th scope="row">${user.id}</th>
+                            <td>${user.first_name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.cpf}</td>
+                            <td>${user.profile}</td>
+                            <td>
+                                <div class="container-icon d-flex gap-2">
+                                    <a class="openModalBtn" href="#" data-id="${user.id}"><i class="fa-solid fa-gear text-secondary cursor-pointer"></i></a>
+                                    <form action="/user/${user.id}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este usuario?')" style="border:none; background:none; padding:0;">
+                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                                
+
+
+
+            })
+
+        })
+
+
+
+
+        $(document).on('change', '#select-user', function() {
+            let typeUser = $(this).val();
+
+            $.ajax({
+                url: `api/user/type/${typeUser}`,
+            }).done(function(res){
+
+                let tableBody = document.querySelector(".coantiner-table tbody");
+                tableBody.innerHTML = ""; 
+
+        
+
+                res.users.forEach(user => {
+                    tableBody.innerHTML += `
+                        <tr>
+                            <th scope="row">${user.id}</th>
+                            <td>${user.first_name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.cpf}</td>
+                            <td>${user.profile}</td>
+                            <td>
+                                <div class="container-icon d-flex gap-2">
+                                    <a class="openModalBtn" href="#" data-id="${user.id}"><i class="fa-solid fa-gear text-secondary cursor-pointer"></i></a>
+                                    <form action="/user/${user.id}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este usuario?')" style="border:none; background:none; padding:0;">
+                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                                
+
+
+                
+
+
+            })
+        
+        });
+
+        $(document).on('click', '.openModalBtn', function(e) {
+            e.preventDefault();
+            
+            const userId = $(this).data('id');
+            const modal = document.getElementById(`myModal${userId}`);
+            
+            if(modal) {
+                modal.style.display = 'block';
+            }
+        });
+
+
+
+
+    };
+
+
+
+</script>

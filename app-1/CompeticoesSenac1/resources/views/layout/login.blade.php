@@ -28,24 +28,21 @@
                 @csrf
                 @method('POST')
                 <div class="title-login">Login</div>
-                <div class="row">
-                    <div class="col-12 my-4">
-                        <div class="flex-input">
-                            <label for="">Email</label>
-                            <input name="email" class="form-control" type="text">
-                        </div>
+                <div class="conatiner_body_login">
+                    <div class="item-login">
+                        <label for="">Email ou Cpf</label>
+                        <input type="text"  name='email'>
                     </div>
-                    <div class="col-12 my-4">
-                        <div class="flex-input">
-                            <label for="">Email</label>
-                            <input name="password" class="form-control" type="password">
-                        </div>
+                    <div class="item-login">
+                        <label for="">Senha</label>
+                        <input type="password" name='password'>
                     </div>
                     <div class="container_login-btn">
                         <button type="submit">Login</button>
                     </div>
                 
                 </div>
+            
             </form>
         </div>
     </div>

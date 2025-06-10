@@ -73,7 +73,7 @@
 
     <section class="conatiner-search">
      
-        <input type="text">
+        <input type="search" id='serch-item'>
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
 
     </section>
@@ -238,4 +238,7 @@
 </div>
         
 @endsection
+
+
+
 

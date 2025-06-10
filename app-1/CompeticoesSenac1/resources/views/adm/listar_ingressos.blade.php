@@ -28,7 +28,8 @@
     </ul>
 
     <div class="conatiner_logout">
-        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</
+        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
+
     </div>
 
 </header>
@@ -65,7 +66,7 @@
     </section>
 
     <section class="conatiner-search">
-        <input type="text">
+        <input type="search" id='serch-item'>
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
 
     </section>

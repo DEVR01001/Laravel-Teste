@@ -35,12 +35,9 @@ class LoginController extends Controller
             'password' => 'required',
         ]); 
 
+
    
-
-
         if(Auth::attempt($validado)){
-
-         
 
             $request->session()->regenerate();
     
@@ -50,7 +47,7 @@ class LoginController extends Controller
                 case 'admin':
                     return redirect()->route('event.index');
                 case 'totem':
-                    return view('totem.totem');
+                    return view('totem.verify-totem');
                 case 'saller':
                     return view('saller.eventos_saller'); 
             }
@@ -58,7 +55,7 @@ class LoginController extends Controller
         }
 
         $msg = 'Email ou senha estão incorretos';
-        return view('login', compact('msg'));
+        return view('layout.login', compact('msg'));
 
     }
 

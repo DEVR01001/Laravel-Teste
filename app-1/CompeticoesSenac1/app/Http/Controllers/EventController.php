@@ -38,18 +38,26 @@ class EventController extends Controller
             'street' => 'required',
             'cep' => 'required',
             'city' => 'required',
-            'logo' => 'required',
+            'logo' => 'required|mimes:jpeg,png,gif,svg|max:2028',
             'capacidade_pessoas' => 'required',
             'neighborhood' => 'required',
             'number' => 'required',
         ]);
-
-
+    
+        $imageName = time() . '.' . $request->logo->extension();
+    
+    
+        $request->logo->move(public_path('images'), $imageName);
+    
+        
+        $validado['logo'] = $imageName;
+    
+      
         Event::create($validado);
-
-        return redirect()->route('event.index');
+    
+        return redirect()->route('event.index')->with('success', 'Evento cadastrado com sucesso!');
     }
-
+    
     /**
      * Display the specified resource.
      */
@@ -90,6 +98,13 @@ class EventController extends Controller
             'neighborhood' => 'required',
             'number' => 'required',
         ]);
+
+        $imageName = time() . '.' . $request->logo->extension();
+    
+        $request->logo->move(public_path('images'), $imageName);
+        
+        $validado['logo'] = $imageName;
+
 
         $event = Event::find($id);
 

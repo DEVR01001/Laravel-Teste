@@ -24,7 +24,7 @@
 
         
                 <div class="card-event">
-                    <img src="{{asset('images/3.png')}}" alt="">
+                    <img src="{{ asset('images/' . $event->logo) }}" alt="">
                     <p>{{$event->name}}</p>
                     <p>{{$event->capacidade_pessoas}}</p>
                     <a href="{{route('sectorSaller.chairsSector', ['id' => $event->id])}}">Ver Evento</a>

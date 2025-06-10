@@ -20,7 +20,9 @@ class QrcodeController extends Controller
      */
     public function index()
     {
-        //
+         
+
+        
     }
 
     /**
@@ -37,18 +39,29 @@ class QrcodeController extends Controller
    public function store(Request $request, $ticketId)
     {
 
+        $codigo = '';
+        $i = 0;
+        
+        while ($i < 10) {
+            $number = rand(1, 9);
+            $codigo .= $number;  
+            $i++;                
+        }
 
+        $url = "/qrcode/access/$ticketId";
+        
 
         $qrcode = Qrcode::create([
             'ticket_id' => $ticketId,
-            'qr_code' => $ticketId,
-
+            'qr_code' => $url,
+            'cod_qrcode' =>  $codigo
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Qrcode salvo com sucesso',
             'ingresso_id' => $ticketId,
+            'url' => $url
         ]);
     }
 
@@ -90,6 +103,77 @@ class QrcodeController extends Controller
             'success' => true,
             'message' => 'Email enviado com sucesso!',
         ]);
+    }
+
+
+    public function getCodQrcode(Request $request){
+
+
+
+        $searchValue = $request->get('q') ?? null;
+
+        if(is_Null($searchValue)){
+
+            $qrcodes = Qrcode::limit(10)->get();
+            
+        }else{
+
+            $qrcodes = Qrcode::where('cod_qrcode', 'like', "%{$searchValue}%")->get();
+        }
+
+
+        $response = $qrcodes->map(function($qrcode){
+
+            return [
+                'id' => $qrcode->id,
+                'text' => "{$qrcode->cod_qrcode}"
+            ];
+        });
+
+
+        return[
+            'results' => $response
+        ];
+    }
+
+
+
+
+
+    public function ValidQrcode(string $codigo){
+
+
+        $qrcode = Qrcode::find($codigo);
+
+
+        $ticket = Ticket::find($qrcode->ticket_id);
+
+        if($ticket->status_ticket == 'used'){
+            return response()->json([
+                'sucess' => false,
+                'msg' => "Ingresso N° $ticket->id já foi validado!",
+            ]);
+        }
+
+        $ticket->status_ticket = 'used';
+
+
+        if($ticket->update()){
+
+            return response()->json([
+                'sucess' => true,
+                'msg' => "Ingresso N° $ticket->id Válido",
+            ]);
+        }
+
+    }
+
+
+
+    public function ValidCam(){
+
+        
+
     }
 
 

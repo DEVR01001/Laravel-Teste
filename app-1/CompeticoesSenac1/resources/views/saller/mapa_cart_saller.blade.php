@@ -85,7 +85,7 @@
                 <div class="conatiner_checkout">
                     <div class="checkout_header">
                         <p>Resumo da venda</p>
-                        <a class="openModalBtn" href="#" data-id="UserPrimary"  >Cadastrar Cliente</a>
+                        <a class="btn-cadastrar-user-cart" href="#" >Cadastrar Usuario</a>
                     </div>
                     <div class="checkout_body" id='checkout_body'>
         
@@ -205,7 +205,7 @@
 
 
 
-
+@include('layout.modal-email')
 
 
 
@@ -214,7 +214,7 @@
 @section('container-modal')
 
 
-<div id="myModalUserPrimary" class="custom-modal">
+<div id="myModalteste" class="custom-modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <p class="title-form">Cadastrar Usuario</p>
@@ -410,8 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-  
-
+ 
 
   $(document).on('click', '#btn-finalizar', function () {
     $.ajax({
@@ -517,9 +516,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
 
                        
-                            const qrcodeBase64 = await gerarQrcode(resQrcode.ingresso_id);
+                            const qrcodeBase64 = await gerarQrcode(resQrcode.url);
 
                             let IngressoId = resQrcode.ingresso_id
+
 
                             await $.ajax({
                                 url: `/ingresso/mail/${IngressoId}`,
@@ -528,7 +528,29 @@ document.addEventListener("DOMContentLoaded", function () {
                                     _token: '{{ csrf_token() }}',
                                     srcEmail: qrcodeBase64
                                 }
-                            });
+                            }).done(function(res){
+
+                                if(res.success){
+
+                                    clearCart()
+
+                                    let modalEmail = document.getElementById('modal-email')
+
+                                    modalEmail.showModal()
+
+                                    $(document).on('click', '#btn-fn-venda', function(){
+                                        window.location.reload();
+                                    })
+
+
+                                     
+                                
+                                    
+
+                                }
+
+
+                            })
 
                         });
                     }
@@ -537,6 +559,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
 
             });
+
+        
+
+                                
 
 
                             

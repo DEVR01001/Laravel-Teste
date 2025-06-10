@@ -251,7 +251,7 @@
 
 .conatiner-search input{
     width: 40%;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 5px;
     outline: none;
     background-color: rgb(241, 241, 241);
@@ -262,7 +262,7 @@
 .conatiner-search button{
     display: flex;
     width: 5%;
-    height: 2rem;
+    height: 2.5rem;
     justify-content: center;
     align-items: center;
     background-color: var(--blue);
@@ -386,11 +386,11 @@ i{
 
   }
 
-  #input-sm,  #select-sm{
+  .input-sm,  .select-sm{
     width: 30%;
   }
 
-  #input-md,   #select-md{
+  .input-md,   .select-md{
     width: 50%;
   }
 
@@ -473,14 +473,45 @@ i{
     display: flex;
     width: 100%;
     flex-direction: column;
-   
     background-color: var(--white);
     border-radius: 10px;
     height:800px;
+
  
     align-items: center;
   }
 
+
+  .conatiner_body_login{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+
+
+  .item-login{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .item-login label{
+    font-size: 1.2rem;
+    color: var(--dark);
+    font-weight: 500;
+
+  }
+
+  .item-login input{
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-color: rgb(230, 230, 230);
+    outline: none;
+    padding: 10px;
+  }
     
   .container_right_login form button{
     width: 30%;
@@ -520,6 +551,7 @@ i{
     color: var(--white);
     border: none;
     font-weight: 500;
+    height: 60px;
 
   }
 
@@ -1186,6 +1218,40 @@ dialog::backdrop{
     outline: none;
 }
 
+.conatiner_modal-btn{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+
+.conatiner_modal-btn button{
+    background-color: rgb(223, 223, 255);
+    color: var(--blue);
+    font-size: 1rem;
+    width: 30%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    font-weight: 500;
+    height: 60px;
+
+}
+
+
+#modal-email{
+    width: 45%;
+    height: 35%;
+
+}
+
+.conatienr-msg-modal{
+    width: 100%;
+    font-size: 1rem;
+    color: var(--dark);
+}
+
 
 dialog{
     padding: 4rem;
@@ -1214,6 +1280,11 @@ dialog{
 
 }
 
+.modal_header h6{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark);
+}
 .modal_header button{
     border: none;
     border-radius: 50%;
@@ -1349,6 +1420,9 @@ dialog{
 
 
 
+
+
+
 @media (max-width: 1326px) {
     .conatiner-btn-cad{
         width: 20%;
@@ -1409,7 +1483,24 @@ dialog{
     }
 
 
-    
+
+
+
+    .conatiner_login .container_left_login{
+        width: 40%;
+    }
+
+    .container_right_login{
+        width: 60%;
+    }
+
+    .container_right_login form button{
+        width: 40%;
+        height: 50px;
+    }
+    .conatiner_login .container_left_login img{
+        height: 400px;
+    }
 }
 
 
@@ -1421,6 +1512,28 @@ dialog{
 
 
 @media (max-width: 970px) {
+
+    .conatiner_login .container_left_login{
+        display: none;
+    }
+    .conatiner_login{
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .container_right_login{
+        width: 100%;
+    }
+
+
+
+
+
+
+
+
+
+
     .nav-container-mobile {
         position: fixed;
         bottom: 1rem;
@@ -1599,10 +1712,10 @@ dialog{
 
     .flex-input input,
     .flex-input select,
-    #input-sm,
-    #select-sm,
-    #input-md,
-    #select-md {
+    .input-sm,
+    .select-sm,
+    .input-md,
+    .select-md {
         width: 100%;
         border-top: none;
         border-left: none;

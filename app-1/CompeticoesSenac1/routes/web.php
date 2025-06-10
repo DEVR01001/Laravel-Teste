@@ -11,6 +11,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsAdm;
 use App\Http\Middleware\IsSaller;
+use App\Http\Middleware\IsTotem;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,6 +34,11 @@ Route::get('/ticketlist', function(){
     return view('adm.listar_ingressos');
 });
 
+
+
+Route::get('/', function(){
+    return view('layout.login');
+});
 
 
 
@@ -74,11 +80,15 @@ Route::middleware([IsSaller::class])->group(function(){
 
 
 
-route::get('/stylePDf', function(){
-    return view('pdf.ingresso');
+
+
+Route::middleware([IsTotem::class])->group(function(){
+
+    route::get('Getqrcode', [QrcodeController::class], 'getCodQrcode')->name('Getqrcode.getCodQrcode');
+
+
+
 });
-
-
 
 
 
@@ -87,10 +97,7 @@ Route::get('logout', [LoginController::class, 'logout']);
 
 
 
-Route::get('/testecam', function(){
 
-    return view('testecam');
-});
 
 
 
