@@ -12,7 +12,7 @@
 
     <section class="conatiner-search">
        
-        <input type="text">
+        <input type="search" id="serch-item">
         <button><i class="fa-solid fa-magnifying-glass"></i></button>
 
     </section>
@@ -190,3 +190,68 @@
         
 @endsection
 
+
+<script>
+
+
+
+    window.onload = function(){
+
+        $(document).on('change', '#serch-item', function () {
+            
+            let searchUser = $(this).val();
+
+            $.ajax({
+                url: `api/user/search?search=${searchUser}`,
+                method: 'GET',
+            }).done(function (res) {
+                let tableBody = document.querySelector(".coantiner-table tbody");
+                tableBody.innerHTML = "";
+
+                res.users.forEach(user => {
+                    tableBody.innerHTML += `
+                        <tr>
+                            <th scope="row">${user.id}</th>
+                            <td>${user.first_name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.cpf}</td>
+                            <td>${user.profile}</td>
+                            <td>
+                                <div class="container-icon d-flex gap-2">
+                                    <a class="openModalBtn" href="#" data-id="${user.id}"><i class="fa-solid fa-gear text-secondary cursor-pointer"></i></a>
+                                    <form action="/user/${user.id}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="_token" value="${$('meta[name="csrf-token"]').attr('content')}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este usuario?')" style="border:none; background:none; padding:0;">
+                                            <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            });
+        });
+
+
+
+        $(document).on('click', '.openModalBtn', function(e) {
+            e.preventDefault();
+            
+            const userId = $(this).data('id');
+            const modal = document.getElementById(`myModal${userId}`);
+            
+            if(modal) {
+                modal.style.display = 'block';
+            }
+        });
+
+
+
+
+    };
+
+
+
+</script>

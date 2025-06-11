@@ -189,23 +189,23 @@ class UserController extends Controller
     }
 
 
-    public function GetSearchUser($search){
-
-        if($search == ''){
-
-            $users = User::all();
-            
-        }else{
-
-            $users = User::where('first_name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%")->orWhere('last_name', 'like', "%{$search}%")->get();
+    public function GetSearchUser(Request $request)
+    {
+        $search = $request->query('search'); 
+    
+        $users = User::query();
+    
+        if ($search) {
+            $users->where(function ($query) use ($search) {
+                $query->where('first_name', 'like', "%{$search}%")
+                      ->orWhere('last_name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+            });
         }
-
-        return response()->json(['users' => $users]);
-
-
+    
+        return response()->json(['users' => $users->get()]);
     }
     
-
 
 
 

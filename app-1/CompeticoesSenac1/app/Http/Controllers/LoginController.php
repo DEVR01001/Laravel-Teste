@@ -35,7 +35,7 @@ class LoginController extends Controller
             'password' => 'required',
         ]); 
 
-
+     
    
         if(Auth::attempt($validado)){
 
@@ -47,7 +47,7 @@ class LoginController extends Controller
                 case 'admin':
                     return redirect()->route('event.index');
                 case 'totem':
-                    return view('totem.verify-totem');
+                    return  redirect()->route('totem.index');
                 case 'saller':
                     return view('saller.eventos_saller'); 
             }

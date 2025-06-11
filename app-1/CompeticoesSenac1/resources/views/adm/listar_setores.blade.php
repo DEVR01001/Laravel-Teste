@@ -44,6 +44,7 @@
         <div class="conatiner_text">
             <i class="fa-solid fa-chevron-left "></i>
             <h1 class="title-dashbord">{{$event->name}}</h1>
+            <input type="hidden" id='eventId' value='{{$event->id}}'>
         </div>
         <a class="conatiner-btn-cad openModalBtn" href="#" data-id="sector">Cadastrar Setores</a>
     </div>
@@ -54,8 +55,9 @@
             <span>{{$qtdSetores}}</span>
         </div>
         <div class="card-dados">
-            <p>Quantidade de Assentos  Disponiveis </p>
-            <span>{{$qtdAssentosDisponiveis}}</span>
+            <p>Quantidade de Assentos Disponiveis </p>
+            <span id="quantEventoVisual">{{$qtdAssentosDisponiveis}}</span>
+            <input type="hidden" id="quantEventoInput" value="{{$qtdAssentosDisponiveis}}">            
         </div>
         <div class="card-dados">
             <p>Quantidade de Assentos Indisponiveis</p>
@@ -73,13 +75,14 @@
 
     <section class="container my-5">
 
-        <table class="table">
+        <table class="table coantiner-table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome Setor</th>
                     <th scope="col">Quantidade Cadeiras</th>
                     <th scope="col">Quantidade Fileiras</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Ver Cadeiras</th>
                     <th scope="col">Ações</th>
                 </tr>
@@ -92,6 +95,7 @@
                         <td>{{$sector->name}}</td>
                         <td>{{$sector->quantity_chairs}}</td>
                         <td>{{$sector->quantity_rows}}</td>
+                        <td>{{$sector->status}}</td>
                         <td >
                             <a href="{{route('chair.show', $sector->id)}}" ><i class=" fa-solid fa-bookmark text-primary"></i></a>
                         </td>
@@ -262,3 +266,98 @@
         
 @endsection
 
+
+
+<script>
+
+
+
+    window.onload = function(){
+
+        $(document).on('change', '#serch-item', function () {
+
+        let searchsector = $(this).val();
+
+        $.ajax({
+            url: `/api/sector/search?search=${searchsector}`,
+            method: 'GET',
+        }).done(function (res) {
+
+            let tableBody = document.querySelector(".coantiner-table tbody");
+
+            tableBody.innerHTML = "";
+
+            res.sectors.forEach(sector => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <th scope="row">${sector.id}</th>
+                        <td>${sector.name}</td>
+                        <td>${sector.quantity_chairs}</td>
+                        <td>${sector.quantity_rows}</td>
+                        <td>${sector.status}</td>
+                        <td>
+                            <a href="/sector/${sector.id}"><i class="fa-solid fa-bookmark text-primary"></i></a>
+                        </td>
+                        <td>
+                            <div class="container-icon d-flex gap-2">
+                                <a class="openModalBtn" href="#" data-id="${sector.id}">
+                                    <i class="fa-solid fa-gear text-secondary cursor-pointer"></i>
+                                </a>
+                                <form action="/sector/${sector.id}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="_token" value="${$('meta[name="csrf-token"]').attr('content')}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este sectoro?')" style="border:none; background:none; padding:0;">
+                                        <i class="fa-solid fa-trash text-danger cursor-pointer"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+        });
+        });
+
+
+
+        $(document).on('click', '.openModalBtn', function(e) {
+            e.preventDefault();
+            
+            const userId = $(this).data('id');
+            const modal = document.getElementById(`myModal${userId}`);
+            
+            if(modal) {
+                modal.style.display = 'block';
+            }
+        });
+
+
+
+
+        let quantEventoInput = document.getElementById('quantEventoInput').value
+        let eventId = document.getElementById('eventId').value
+
+
+        console.log(eventId)
+        console.log(quantEventoInput)
+
+        $.ajax({
+            url: `{{route('event.verify')}}`,
+            method: 'GET',
+            data: {
+                'eventId': eventId,
+                'quantEvent': quantEventoInput,
+            }
+        }).done(function(res){
+            console.log(res);
+        });
+
+
+
+
+    };
+
+
+
+</script>

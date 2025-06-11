@@ -377,12 +377,15 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-
+  
   
     $(document).on('click', '.btn-add-chair', function (e) {
 
 
         let id_chair = $(this).attr('data-chair');
+
+
+
         addCart(id_chair);
     });
 
@@ -516,9 +519,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
 
                        
-                            const qrcodeBase64 = await gerarQrcode(resQrcode.url);
-
                             let IngressoId = resQrcode.ingresso_id
+
+                            const qrcodeBase64 = await gerarQrcode(IngressoId);
 
 
                             await $.ajax({

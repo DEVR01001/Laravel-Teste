@@ -9,7 +9,7 @@ class Qrcode extends Model
     protected $fillable = [
         'qr_code',	
         'ticket_id',
-        'cod_qrcode',
+
 
     ];
 }

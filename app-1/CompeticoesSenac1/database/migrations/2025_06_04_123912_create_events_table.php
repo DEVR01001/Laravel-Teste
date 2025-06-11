@@ -18,6 +18,7 @@ return new class extends Migration
             $table->time('time_event');
             $table->string('cep', 10);
             $table->integer('capacidade_pessoas');
+            $table->integer('quant_pessoas_reservadas');
             $table->string('street');
             $table->string('neighborhood');
             $table->string('city', 100);

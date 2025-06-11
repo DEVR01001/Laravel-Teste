@@ -82,19 +82,20 @@ Route::middleware([IsSaller::class])->group(function(){
 
 
 
-Route::middleware([IsTotem::class])->group(function(){
-
-    route::get('Getqrcode', [QrcodeController::class], 'getCodQrcode')->name('Getqrcode.getCodQrcode');
+Route::get('Getqrcode', [QrcodeController::class, 'getCodQrcode'])->name('Getqrcode.getCodQrcode');
 
 
 
-});
+
+Route::post('/check-qrcode', [QrCodeController::class, 'checkCam']);
 
 
+Route::get('/totem', function(){
+
+    return view('totem.verify-totem');
+})->name('totem.index');
 
 Route::get('logout', [LoginController::class, 'logout']);
-
-
 
 
 

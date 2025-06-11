@@ -133,4 +133,50 @@ class EventController extends Controller
 
 
     }
+
+
+
+
+
+    
+    public function GetSearchEvent(Request $request)
+    {
+        $search = $request->query('search'); 
+    
+        $event = Event::query();
+    
+        if ($search) {
+            $event->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('date_event', 'like', "%{$search}%")
+                      ->orWhere('cep', 'like', "%{$search}%")
+                      ->orWhere('capacidade_pessoas', 'like', "%{$search}%");
+            });
+        }
+    
+        return response()->json(['events' => $event->get()]);
+    }
+
+
+
+    public function VerifyEventQuant(Request $request){
+
+        $event = Event::find($request->eventId);
+        $quantEvento = $request->quantEvent;
+        
+        if($event->capacidade_pessoas >  $quantEvento){
+
+            return response()->json([
+                'msg' => "Limite ultrapassado de pessoas do evento '$event->name' ",
+                'sucess' => false
+            ]);
+
+        }
+
+
+        return response()->json([
+            'sucess' => true
+        ]);
+    }
+    
 }

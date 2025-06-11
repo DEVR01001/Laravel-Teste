@@ -53,7 +53,7 @@
                     <img src="{{asset('images/3.png')}}" alt="">
                     <p>{{$sector->name}}</p>
                     <p>{{$sector->capacidade_pessoas}}</p>
-                    <a href="{{route('map.show', $sector->id)}}">Ver Evento</a>
+                    <a href="{{route('map.show', $sector->id)}}">Ver Setor</a>
                 </div>
                     
             @endforeach

@@ -50,12 +50,24 @@ class ChairController extends Controller
      */
     public function show(string $id)
     {
-        $chairs = Chair::where('sector_id', '=', $id)->get();
+        $chairs = Chair::orderByRaw("CASE WHEN level_chair = 'vip' THEN 0 ELSE 1 END")->where('sector_id', '=', $id)->get();
 
         $sector = Sector::find($id);
 
         return view('adm.listar_cadeiras', compact('chairs', 'sector'));
     }
+
+
+    
+    // public function chairsSector(string $id)
+    // {
+    //     $event = Event::with(['sectors' => function ($query) {
+    //                         $query->orderByRaw("CASE WHEN level = 'vip' THEN 0 ELSE 1 END");
+    //                     }, 'sectors.chairs'])
+    //                 ->findOrFail($id);
+
+    //     return view('saller.setores_saller', compact('event'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -97,4 +109,26 @@ class ChairController extends Controller
 
         return redirect()->route('chair.show', $chair->sector_id);
     }
+
+
+
+    public function GetSearchChair(Request $request)
+    {
+        $search = $request->query('search'); 
+    
+        $chair = Chair::query();
+    
+        if ($search) {
+            $chair->where(function ($query) use ($search) {
+                $query->where('number_chair', 'like', "%{$search}%")
+                      ->orWhere('status_chair', 'like', "%{$search}%")
+                      ->orWhere('level_chair', 'like', "%{$search}%");
+            });
+        }
+    
+        return response()->json(['chairs' => $chair->get()]);
+    }
+    
+
+
 }

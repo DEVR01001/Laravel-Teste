@@ -43,9 +43,6 @@ class SectorController extends Controller
 
     $totalCadeiras = $request->quantity_chairs * $request->quantity_rows;
 
-    
-
-
     $i = 1;
 
 
@@ -146,16 +143,38 @@ class SectorController extends Controller
 
 
 
-
-
-    public function chairsSector(string $id){
-
-        $event = Event::with('sectors.chairs')
+    public function chairsSector(string $id)
+    {
+        $event = Event::with(['sectors' => function ($query) {
+                            $query->orderByRaw("CASE WHEN level = 'vip' THEN 0 ELSE 1 END");
+                        }, 'sectors.chairs'])
                     ->findOrFail($id);
 
         return view('saller.setores_saller', compact('event'));
-
     }
+
+
+
+
+    public function GetSearchSector(Request $request)
+    {
+        $search = $request->query('search'); 
+    
+        $sector = Sector::query();
+    
+        if ($search) {
+            $sector->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('quantity_chairs', 'like', "%{$search}%")
+                      ->orWhere('quantity_rows', 'like', "%{$search}%")
+                      ->orWhere('status', 'like', "%{$search}%");
+            });
+        }
+    
+        return response()->json(['sectors' => $sector->get()]);
+    }
+    
+
 
 
 

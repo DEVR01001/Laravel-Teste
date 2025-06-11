@@ -18,6 +18,9 @@
     
     <link rel="stylesheet" href="{{ asset('css/totem.css') }}">
 
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Document</title>
 </head>
@@ -26,13 +29,13 @@
     <div class="container_totem">
         <div class="conatiner_header_totem">
         <a href="">Totem N° 1</a>
-        <a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
+        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
     </div>
     
     <div class="conatiner_header_body">
 
         <div class="conatiner_camera">
-            <video id="video"></video>
+            <div id="reader" style="width: 100%;"></div>
         </div>
 
         <div class="contairner_text_totem">
@@ -82,64 +85,112 @@
 
 
 <script>
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (mediaStream) {
-            const video = document.querySelector('#video');
-            video.srcObject = mediaStream;
-            video.play();
-        })
-        .catch(function () {
-            console.log('Não há permissões para acessar a webcam');
+        const html5QrCode = new Html5Qrcode("reader");
+
+        Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                const cameraID = devices[0].id;
+
+                html5QrCode.start(
+                    cameraID,
+                    { fps: 10, qrbox: 250 },
+                    qrCodeMessage => {
+                        html5QrCode.stop();
+
+                        fetch('/check-qrcode', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ qrcode: qrCodeMessage })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+
+                            const modalValid = document.getElementById('modalValid');
+
+                            let htmlContent = `
+                                <div class="modal_header">
+                                    <h6>
+                                        ${data.msg}!
+                                    </h6> 
+                                </div>
+                                <div class="conatiner_modal-btn">
+                                    <button id='bnt-fn-totem' class="btn-fn-venda">Salvar</button>
+                                </div>
+                            `;
+
+                            modalValid.innerHTML = htmlContent;
+                            modalValid.showModal();
+
+                            $(document).on('click', '#bnt-fn-totem', function () {
+                                window.location.reload();
+                            });
+                        });
+                    },
+                );
+            }
+        }).catch(err => {
+            document.getElementById('result').innerText = "Erro ao acessar câmera: " + err;
         });
 
-    $('.js-example-basic-single').select2({
-        ajax: {
-            url: '{{ route('qrcode.getCodQrcode') }}',
-            dataType: 'json'
-        }
-    });
 
-    document.querySelector('#btnValidar').addEventListener('click', function () {
-        const codigo = $('.js-example-basic-single').val();
 
-        if (!codigo) {
-            alert('Selecione ou digite o código QR');
-            return;
-        }
-
-        $.ajax({
-            url: `api/qrcode/valid/${codigo}`, 
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-            }
-        }).done(function (res) {
-            const modalValid = document.getElementById('modalValid');
-
-            let htmlContent = `
-                <div class="modal_header">
-                      <i class="fa-solid ${res.success ? 'fa-check' : 'fa-xmark'}"></i>
-                    <h6>
-                        ${res.msg}!
-                    </h6> 
-                </div>
-                <div class="conatiner_modal-btn">
-                    <button id='bnt-fn-totem' class="btn-fn-venda">Salvar</button>
-                </div>
-            `;
-
-            modalValid.innerHTML = htmlContent;
-            modalValid.showModal();
-
-            $(document).on('click', '#bnt-fn-totem', function () {
-                window.location.reload();
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            $('.js-example-basic-single').select2({
+                ajax: {
+                    url: '{{ route('Getqrcode.getCodQrcode') }}',
+                    dataType: 'json'
+                }
             });
 
-        }).fail(function (err) {
-            alert('Erro ao validar o código. Verifique o console.');
-            console.error(err);
-        });
-    });
+            document.querySelector('#btnValidar').addEventListener('click', function () {
+                const codigo = $('.js-example-basic-single').val();
+
+                if (!codigo) {
+                    alert('Selecione ou digite o código QR');
+                    return;
+                }
+
+                $.ajax({
+                    url: `api/qrcode/valid/${codigo}`, 
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                    }
+                }).done(function (res) {
+                    const modalValid = document.getElementById('modalValid');
+
+                    let htmlContent = `
+                        <div class="modal_header">
+                            <h6>
+                                ${res.msg}!
+                            </h6> 
+                        </div>
+                        <div class="conatiner_modal-btn">
+                            <button id='bnt-fn-totem' class="btn-fn-venda">Salvar</button>
+                        </div>
+                    `;
+
+                    modalValid.innerHTML = htmlContent;
+                    modalValid.showModal();
+
+                    $(document).on('click', '#bnt-fn-totem', function () {
+                        window.location.reload();
+                    });
+
+                }).fail(function (err) {
+                    alert('Erro ao validar o código. Verifique o console.');
+                    console.error(err);
+                });
+            });
+
+
+        })
+
 </script>
 
 

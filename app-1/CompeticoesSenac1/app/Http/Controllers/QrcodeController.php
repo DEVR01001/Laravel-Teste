@@ -48,20 +48,18 @@ class QrcodeController extends Controller
             $i++;                
         }
 
-        $url = "/qrcode/access/$ticketId";
         
 
         $qrcode = Qrcode::create([
             'ticket_id' => $ticketId,
-            'qr_code' => $url,
-            'cod_qrcode' =>  $codigo
+            'qr_code' => $codigo,
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Qrcode salvo com sucesso',
             'ingresso_id' => $ticketId,
-            'url' => $url
+
         ]);
     }
 
@@ -118,7 +116,7 @@ class QrcodeController extends Controller
             
         }else{
 
-            $qrcodes = Qrcode::where('cod_qrcode', 'like', "%{$searchValue}%")->get();
+            $qrcodes = Qrcode::where('qr_code', 'like', "%{$searchValue}%")->get();
         }
 
 
@@ -126,14 +124,15 @@ class QrcodeController extends Controller
 
             return [
                 'id' => $qrcode->id,
-                'text' => "{$qrcode->cod_qrcode}"
+                'text' => "{$qrcode->qr_code}"
             ];
         });
 
 
-        return[
+        return response()->json([
             'results' => $response
-        ];
+        ]);
+        
     }
 
 
@@ -170,10 +169,31 @@ class QrcodeController extends Controller
 
 
 
-    public function ValidCam(){
+    public function checkCam(Request $request)
+    {
+        $code = $request->input('qrcode');
 
         
+        $ticket = Ticket::find($code);
 
+        if($ticket->status_ticket == 'used'){
+            return response()->json([
+                'sucess' => false,
+                'msg' => "Ingresso N° $ticket->id já foi validado!",
+            ]);
+        }
+
+
+   
+        $ticket->status_ticket = 'used';
+
+        $ticket->update();
+
+        return response()->json([
+            'sucess' => true,
+            'msg' =>  "Ingresso N° $ticket->id Válido",
+            'conteudo' => $code
+        ]);
     }
 
 

@@ -35,6 +35,18 @@ Route::middleware([IsTotem::class])->group(function(){
 Route::get('/user/type/{typeUser}', [UserController::class, 'GetUserType']);
 
 
-Route::get('/user/search/{searchUser}', [UserController::class, 'GetSearchUser']);
 
 
+Route::get('/user/search', [UserController::class, 'GetSearchUser']);
+
+Route::get('/event/search', [EventController::class, 'GetSearchEvent']);
+
+
+Route::get('/sector/search', [SectorController::class, 'GetSearchSector']);
+
+
+Route::get('/chair/search', [ChairController::class, 'GetSearchChair']);
+
+
+
+Route::get('/event/verify', [EventController::class, 'VerifyEventQuant'])->name('event.verify');
