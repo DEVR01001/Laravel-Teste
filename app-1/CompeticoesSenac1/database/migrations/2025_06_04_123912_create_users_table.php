@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('first_name', 100);
             $table->string('last_name', 100)->nullable();
             $table->string('email')->unique('email');
-            $table->string('password');
+            $table->string('password')->nullable();;
             $table->enum('profile', ['client', 'admin', 'totem', 'saller']);
             $table->timestamps();
         });

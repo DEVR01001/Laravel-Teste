@@ -35,12 +35,12 @@
                                 @else
 
                                     @if ($chair->level_chair == 'vip')
-                                        <div class="map-chair vip btn-add-chair" data-chair="{{ $chair->id }}">
+                                        <div class="map-chair vip btn-add-chair" data-chair="{{ $chair->id }}" data-numchair='{{ $chair->number_chair }}'>
                                             {{ $chair->number_chair }}
                                         </div>
                                         
                                     @else
-                                        <div class="map-chair available btn-add-chair" data-chair="{{ $chair->id }}">
+                                        <div class="map-chair available btn-add-chair" data-chair="{{ $chair->id }}"data-numchair='{{ $chair->number_chair }}' >
                                             {{ $chair->number_chair }}
                                         </div>
                                         
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     if (!ContainerCart) return; 
 
-    function addCart(id_chair) {
+    function addCart(id_chair, num_chair) {
         let cart = getCart();
         let exists = cart.some(element => element.id_chair == id_chair);
 
@@ -308,7 +308,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         cart.push({
             'id_chair': id_chair,
-            'id_user': ''
+            'id_user': '',
+            'num_chair': num_chair
         });
 
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -345,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cart.forEach(chairItem => {
             ContainerCart.innerHTML += `
                 <div class="ticket_item">
-                    <div class="ticket">Cadeira N° ${chairItem.id_chair}</div>
+                    <div class="ticket">Cadeira N° ${chairItem.num_chair}</div>
                     <i class="fa-solid fa-xmark delete-chair" data-chair="${chairItem.id_chair}"></i>
                 </div>
             `;
@@ -383,10 +384,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         let id_chair = $(this).attr('data-chair');
+        let number_chair = $(this).attr('data-numchair');
 
 
 
-        addCart(id_chair);
+        addCart(id_chair, number_chair);
     });
 
     $(document).on('click', '.delete-chair', function () {

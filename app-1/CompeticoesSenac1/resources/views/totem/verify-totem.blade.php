@@ -28,7 +28,7 @@
 
     <div class="container_totem">
         <div class="conatiner_header_totem">
-        <a href="">Totem N° 1</a>
+        <a href="">Totem N° {{Auth::user()->id}}</a>
         <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
     </div>
     

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->text('qr_code');
             $table->integer('ticket_id')->index('ticket_id');
             $table->timestamps();
-            $table->integer('cod_qrcode');
         });
     }
 

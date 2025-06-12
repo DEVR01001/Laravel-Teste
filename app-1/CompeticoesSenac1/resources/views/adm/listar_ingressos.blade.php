@@ -1,38 +1,9 @@
 @extends('layout.app')
 
 
-
 @section('navbar')
 
-<div class="nav-container-mobile">
-    <ul>
-        <li><i class="fa-solid fa-users"></i><a href="{{ route('user.index') }}">Usuários</a></li>
-        <li><i class="fa-solid fa-calendar-days"></i><a href="{{ route('event.index') }}">Eventos</a></li>
-        <li><i class="fa-solid fa-ticket"></i><a href="{{ route('ticket.index') }}">Ingressos</a></li>
-        <li><i class="fa-solid fa-database"></i><a href="#">Relatórios</a></li>
-    </ul>
-</div>
-
-<header class="header">
-           
-
-    <div class="conatiner_logo">
-        <img src="{{ asset('images/Objeto Inteligente de Vetor.png') }}" alt="Logo da empresa">
-    </div>
-
-    <ul>
-        <a href="{{route('user.index')}}">Usuários</a>
-        <a href="{{ route('event.index') }}">Eventos</a>
-        <a href="{{route('ticket.index')}}">Ingressos</a>
-        <a href="">Relatórios</a>
-    </ul>
-
-    <div class="conatiner_logout">
-        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a>
-
-    </div>
-
-</header>
+@include('adm.nav_bar-adm')
 
 @endsection
 
