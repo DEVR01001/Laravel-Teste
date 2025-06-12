@@ -23,13 +23,14 @@ Route::middleware([IsTotem::class])->group(function(){
 
     Route::get('/qrcode', [QrcodeController::class, 'getCodQrcode'])->name('qrcode.getCodQrcode');
 
-    Route::post('qrcode/valid/{codigo}', [QrcodeController::class, 'ValidQrcode']);
-
+ 
     Route::get('/qrcode/access/{ticketId}', [QrcodeController::class, 'ValidCam']);
 
 
 });
 
+
+Route::post('qrcode/valid/{codigo}', [QrcodeController::class, 'ValidQrcode']);
 
 
 Route::get('/user/type/{typeUser}', [UserController::class, 'GetUserType']);

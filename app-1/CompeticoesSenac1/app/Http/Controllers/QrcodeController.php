@@ -145,6 +145,9 @@ class QrcodeController extends Controller
         $qrcode = Qrcode::find($codigo);
 
 
+    
+
+
         $ticket = Ticket::find($qrcode->ticket_id);
 
         if($ticket->status_ticket == 'used'){
