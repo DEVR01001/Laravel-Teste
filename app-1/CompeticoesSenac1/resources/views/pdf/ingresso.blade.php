@@ -83,7 +83,7 @@
         </div>
 
         <div class="qrcode">
-            <p><strong>Código QRCode:</strong> 343434343</p>
+            <p><strong>Código QRCode:{{$CodsigoQrcode->qr_code}}</strong> </p>
             <img src="{{ $qrcodeBase64 }}" alt="QR Code">
         </div>
 

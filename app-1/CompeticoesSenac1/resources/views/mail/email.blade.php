@@ -11,7 +11,7 @@ Seu ingresso para o evento **{{ $evento->name }}** está pronto.
 ---
 
 ## QR Code do ingresso:
-<img src="{{ $qrcodeBase64 }}" width="200" height="200" alt="QR Code do ingresso" />
+<img src="{{ asset('images/' . $qrcode->img_qrcode) }}" width="100%" height="300" alt="QR Code do ingresso" />
 
 Você também receberá um PDF com todos os detalhes.
 

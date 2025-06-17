@@ -101,5 +101,9 @@ Route::get('logout', [LoginController::class, 'logout']);
 
 
 
+Route::get('/emailTeste', function(){
+    return view('mail.email');
+});
+
 
 

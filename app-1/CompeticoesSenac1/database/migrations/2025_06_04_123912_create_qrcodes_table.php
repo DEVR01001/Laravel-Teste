@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('qrcodes', function (Blueprint $table) {
             $table->integer('id', true)->primary()->autoIncrement();
             $table->text('qr_code');
+            $table->text('img_qrcode')->nullable();
             $table->integer('ticket_id')->index('ticket_id');
             $table->timestamps();
         });

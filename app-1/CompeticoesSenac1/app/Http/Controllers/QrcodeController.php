@@ -11,6 +11,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 class QrcodeController extends Controller
@@ -48,6 +49,12 @@ class QrcodeController extends Controller
             $i++;                
         }
 
+
+        $ingresso = Ticket::findOrFail($ticketId);
+        $user = User::findOrFail($ingresso->user_id);
+        $chair = Chair::findOrFail($ingresso->chair_id );
+        $setor = Sector::findOrFail($chair->sector_id);
+        $evento = Event::findOrFail($setor->event_id);
         
 
         $qrcode = Qrcode::create([
@@ -59,6 +66,12 @@ class QrcodeController extends Controller
             'success' => true,
             'message' => 'Qrcode salvo com sucesso',
             'ingresso_id' => $ticketId,
+            'evento' => $evento,
+            'user' => $user,
+            'chair' => $chair,
+            'setor' => $setor,
+            'ingresso' => $ingresso,
+            'codigo' => $codigo,
 
         ]);
     }
@@ -67,12 +80,42 @@ class QrcodeController extends Controller
     public function EmailIngresso(Request $request, $IngressoId)
     {
 
+
+
+     
+        $qrcode = Qrcode::where('ticket_id', $request->IngressoId)->firstOrFail();
+
+        $dataUrl = $request->data_url;
+
+    
+        [$type, $data] = explode(';', $dataUrl);
+        [, $data] = explode(',', $data);
+
+  
+        $imageData = base64_decode($data);
+
+    
+        $extension = explode('/', mime_content_type($dataUrl))[1];
+
+        $fileName = time() . '.' . $extension;
+
+  
+        $path = public_path('images/' . $fileName);
+
+    
+        File::put($path, $imageData);
+
+        $qrcode->update([
+            'img_qrcode' => $fileName
+        ]);
+
+
         $ingresso = Ticket::findOrFail($IngressoId);
         $user = User::findOrFail($ingresso->user_id );
         $chair = Chair::findOrFail($ingresso->chair_id );
         $setor = Sector::findOrFail($chair->sector_id);
         $evento = Event::findOrFail($setor->event_id);
-
+        $qrcode = Qrcode::where('ticket_id', $IngressoId)->firstOrFail();
         $qrcodeBase64 = $request->srcEmail; 
 
 
@@ -83,10 +126,16 @@ class QrcodeController extends Controller
             'setor' => $setor,
             'evento' => $evento,
             'qrcodeBase64' => $qrcodeBase64,
+            'qrcode' => $qrcode,
+            'CodsigoQrcode' => $qrcode,
         ]);
 
           $pdfContent = $pdf->output();
         
+       
+
+
+
 
         Mail::to($user->email)->send(new SendIngresso(
             $user,
@@ -94,7 +143,8 @@ class QrcodeController extends Controller
             $chair,
             $evento,
             $qrcodeBase64,
-            $pdfContent
+            $pdfContent,
+            $qrcode
         ));
 
         return response()->json([

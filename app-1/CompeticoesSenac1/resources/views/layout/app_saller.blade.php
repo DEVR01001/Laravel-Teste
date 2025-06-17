@@ -17,6 +17,8 @@
   
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/email.css') }}">
+    <script src="{{asset('js/html2canvas.min.js')}}"></script>
 
 
 

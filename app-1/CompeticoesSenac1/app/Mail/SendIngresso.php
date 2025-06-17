@@ -16,8 +16,9 @@ class SendIngresso extends Mailable
     public $evento;
     public $qrcodeBase64;
     public $pdfContent; 
+    public $qrcode;
 
-    public function __construct($user, $ingresso, $chair, $evento, $qrcodeBase64, $pdfContent)
+    public function __construct($user, $ingresso, $chair, $evento, $qrcodeBase64, $pdfContent, $qrcode)
     {
         $this->user = $user;
         $this->ingresso = $ingresso;
@@ -25,6 +26,7 @@ class SendIngresso extends Mailable
         $this->evento = $evento;
         $this->qrcodeBase64 = $qrcodeBase64;
         $this->pdfContent = $pdfContent;
+        $this->qrcode = $qrcode;
     }
 
     public function build()

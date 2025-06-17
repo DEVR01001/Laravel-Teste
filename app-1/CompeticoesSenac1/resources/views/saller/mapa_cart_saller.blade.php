@@ -132,6 +132,10 @@
 
     </dialog>
 
+    <div id="ticket-div" class="conatiner_modal_ticket">
+        
+    </div>
+
  
 
 
@@ -507,10 +511,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         _token: '{{ csrf_token() }}',
                         id_sale: Idsale
                     }
-                }).done(function(res){
+                }).done(function (res) {
 
                     if (res.sucess === true) {
-                        res.id_ticket.forEach(async IdIngresso => {
+                        res.id_ticket.forEach(async (IdIngresso, index) => {
 
                             const resQrcode = await $.ajax({
                                 url: `/qrcode/store/${IdIngresso}`,
@@ -520,52 +524,91 @@ document.addEventListener("DOMContentLoaded", function () {
                                 }
                             });
 
-                       
-                            let IngressoId = resQrcode.ingresso_id
-
+                            const IngressoId = resQrcode.ingresso_id;
                             const qrcodeBase64 = await gerarQrcode(IngressoId);
 
+                            const evento = resQrcode.evento;
+                            const setor = resQrcode.setor;
+                            const chair = resQrcode.chair;
+                            const codigo = resQrcode.codigo;
 
-                            await $.ajax({
-                                url: `/ingresso/mail/${IngressoId}`,
-                                method: 'POST',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    srcEmail: qrcodeBase64
-                                }
-                            }).done(function(res){
+                            const captureId = `capture-${IngressoId}`;
+                            const containerId = `ticket-div-${IngressoId}`;
 
-                                if(res.success){
+                            const htmlImgCaminho = `
+                                <div id="${containerId}" style="position:absolute;left:-9999px;">
+                                    <div id="${captureId}" class="container_ticket">
+                                        <div class="container_left_ticket">
+                                            <div class="conatiner_text_ticket">
+                                                <div class="text-ticket-1">Evento</div>
+                                                <div class="text-ticket-2">${evento.name}</div>
+                                                <div class="text-ticket-3">
+                                                    Local do evento: Rua ${evento.street}, ${evento.neighborhood}, ${evento.number}.
+                                                </div>
+                                                <div class="container_item_ticket">
+                                                    <div class="flex-ticket">
+                                                        <p>Setor</p>
+                                                        <span>${setor.name}</span>
+                                                    </div>
+                                                    <div class="flex-ticket">
+                                                        <p>Assento</p>
+                                                        <span>${chair.number_chair}</span>
+                                                    </div>
+                                                    <div class="flex-ticket">
+                                                        <p>Data</p>
+                                                        <span>${evento.date_event}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="./Captura_de_tela_2025-06-16_132104-removebg-preview.png" alt="">
+                                        </div>
+                                        <div class="container_right_ticket">
+                                            <img src="${qrcodeBase64}" alt="" width="200" height="200">
+                                            <p>Qrcode: ${codigo}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
 
-                                    clearCart()
+                            const tempWrapper = document.createElement('div');
+                            tempWrapper.innerHTML = htmlImgCaminho;
+                            document.body.appendChild(tempWrapper);
 
-                                    let modalEmail = document.getElementById('modal-email')
+                            const captureElement = document.getElementById(captureId);
 
-                                    modalEmail.showModal()
+                            html2canvas(captureElement).then(canvas => {
+                                const imageBase64 = canvas.toDataURL('image/png');
+                        
+                                $.ajax({
+                                    url: `/ingresso/mail/${IngressoId}`,
+                                    method: 'POST',
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        srcEmail: qrcodeBase64,
+                                        data_url: imageBase64 
+                                    }
+                                }).done(function (res) {
+                                    if (res.success) {
+                                        clearCart();
 
-                                    $(document).on('click', '#btn-fn-venda', function(){
-                                        window.location.reload();
-                                    })
+                                        const modalEmail = document.getElementById('modal-email');
+                                        modalEmail.showModal();
 
+                                        $(document).on('click', '#btn-fn-venda', function () {
+                                            window.location.reload();
+                                        });
+                                    }
+                                });
 
-                                     
-                                
-                                    
-
-                                }
-
-
-                            })
-
+                            
+                                tempWrapper.remove();
+                            });
                         });
                     }
 
-                    
-                })
+                });
 
-            });
-
-        
+                });
 
                                 
 

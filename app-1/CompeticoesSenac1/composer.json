@@ -11,7 +11,8 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "lavela/phpjasper": "^3.0"
+        "lavela/phpjasper": "^3.0",
+        "spatie/browsershot": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

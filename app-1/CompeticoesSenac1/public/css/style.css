@@ -1394,7 +1394,10 @@ dialog{
 
 
 
-
+.conatiner_modal_ticket{
+    display: none;
+    width: 100%;
+}
 
 
 
